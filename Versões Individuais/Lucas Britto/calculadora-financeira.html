@@ -6,6 +6,46 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <h1>Calculadora Financeira - MooTech</h1>
+    <p><i>Nossas projeções financeiras são baseadas nos parâmetros de qualidade das IN 76/77 do MAPA, dados de produtividade e CBT da Embrapa Gado de Leite e índices de preços de mercado fornecidos pelo CEPEA/Esalq.</i></p>
+    <span>Quanto litros sua fazenda produz por dia?</span>
+    <input type="number" id="ipt_producao" placeholder="Ex: 40.000L">
+    <br>
+    <button onclick="calcular()">Calcular</button>
+    <br><br>
+    <div id="div_mensagem"></div>
 </body>
 </html>
+<script>
+    function calcular() {
+        let producaoDiaria = +ipt_producao.value;
+        let valorLeite = 2.48;
+       
+        let producaoAnual = producaoDiaria * 365;
+        
+        let perdaBaixa = producaoAnual * 0.03;
+        let perdaModerada = producaoAnual * 0.07;
+        let perdaAlta = producaoAnual * 0.12;
+
+        let valorPerdaBaixa = perdaBaixa * valorLeite;
+        let valorPerdaModerada = perdaModerada * valorLeite;
+        let valorPerdaAlta = perdaAlta * valorLeite;
+
+        if (producaoDiaria == "") {
+            alert(`Insira um valor válido`)
+            return;
+        }
+
+        div_mensagem.innerHTML = `Temos 3 cenários possíveis para a sua produção, sendo eles:
+        <br><br>
+        Risco Baixo (Clima ameno/Energia estável):
+        <br>Nesse cenário você que produz ${producaoDiaria} litros/dia teria uma perda de 3% ao ano o que representa <b>${perdaBaixa.toFixed(2)} litros perdidos</b>. Considerando o preço do leite a R$2,48, a nossa solução evitaria um prejuízo de R$${valorPerdaBaixa.toFixed(2)} anuais.
+        <br><br>
+        Risco Moderado (Variação térmica/Energia instável):
+        <br>Nesse cenário você que produz ${producaoDiaria} litros/dia teria uma perda de 7% ao ano o que representa <b>${perdaModerada.toFixed(2)} litros perdidos</b>. Considerando o preço do leite a R$2,48, a nossa solução evitaria um prejuízo de R$${valorPerdaModerada.toFixed(2)} anuais.
+        <br><br>
+        Risco Alto (Clima quente/Histórico de falhas):
+        <br>Nesse cenário você que produz ${producaoDiaria} litros/dia teria uma perda de 12% ao ano o que representa <b>${perdaAlta.toFixed(2)} litros perdidos</b>. Considerando o preço do leite a R$2,48, a nossa solução evitaria um prejuízo de R$${valorPerdaAlta.toFixed(2)} anuais.`
+
+    }
+</script>
