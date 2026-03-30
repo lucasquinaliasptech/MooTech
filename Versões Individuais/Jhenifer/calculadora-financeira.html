@@ -6,6 +6,63 @@
     <title>Document</title>
 </head>
 <body>
+
+    <center>
+    <h1>Olá, seja bem-vindo(a)!</h1>
+    <h3>Nos informe os seguintes valores, a fim de que possamos te dar uma estimativa dos prejuízos financeiros.</h3>
+        <h4 style="color: rgb(185, 0, 0)">Em caso de valores com "," coloque "."</h4>
+    </center>
+    <p>Insira a quantidade em litro do leite:</p>
+        <input type="number" id="quantidadeLeite">
+            <br>
+            <br>
+    <p>Insira o valor do litro por leite:</p>
+        <input type="number" id="valorLeite">
+            <br>
+            <br>
+    <p>Insira a quantidade de tanques:</p>
+        <input type="number" id="tanque">
+            <br>
+            <br>
+    <button onclick="calcularF()">Iniciar simulação</button>
+            <br>
+            <br>
+    <div id="div_mensagem"></div>
     
 </body>
 </html>
+
+<script>
+    function calcularF() {
+
+        div_mensagem.innerHTML = "";
+
+        let qtd_leite = Number(quantidadeLeite.value);
+        let valor_leite = Number(valorLeite.value);
+        let preco_leite = valor_leite * qtd_leite;
+        let porcentagem = preco_leite * 0.3;
+        let desperdicio = preco_leite + porcentagem;
+        let qtd_sensor = Number(tanque.value);
+
+        //Valor do DHT11: (https://www.eletrogate.com/temperatura-umidade?srsltid=AfmBOopIkc5Ah33WfVYmm-sTmiwO9GNU-RTYD3zWjGLCWHm_HUyavIxr)
+        let valor_sensor = 7.50;
+
+        let preco_sensor = qtd_sensor * valor_sensor;
+
+        if (qtd_leite < 0 || valor_leite < 0 || qtd_sensor < 0) {
+            div_mensagem.innerHTML += "<b>Por favor, insira um valor válido.";
+        }
+            else if (qtd_leite == '' || valor_leite == '' || qtd_sensor == '') {
+                div_mensagem.innerHTML += "<b>Tem algum campo vazio, favor preencher com um valor válido.";
+            }
+                else{
+                    div_mensagem.innerHTML += `<p>O valor do <b>leite desperdiçado</b>, por conta de problemas com temperatura e umidade, seria de <b>R$${porcentagem}</b> do total de <b>R$${preco_leite}</b>.
+                        <br><br>
+                    Para solucionar problemas de temperatura e umidade, <i>Mootech</i> oferece uma tecnologia de monitoração prática e segura. Com base nos valores dados, serão <b>${qtd_sensor}</b> sensores instalados, custando um total de <b>R$${preco_sensor}</b> na compra de sensores. Com manuntenção de apenas <b>R$15</b> por sensor.
+                        <br><br>
+                    <b>O valor do sistema de monitoração é discutido em particular.`;
+                }
+
+
+    }
+</script>
