@@ -3,9 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Calculadora - MooTech</title>
 </head>
 <body>
-    
+    <h1>Calculadora MooTech</h1>
+    <p>Esta calculadora permite que o produtor de leite analise o dinheiro que ele deixa de ganhar pela falta de controle de temperatura e umidade em seus tanques de armazenamento.</p>
+    <p>Insira a quantidade de tanques de armazenamento de leite que você possui:</p>
+    <input type="text" id="ipt_armazenamento">
+    <p>Insira a capacidade média dos tanques de armazenamento de leite que você possui: (em litros)</p>
+    <input type="text" id="ipt_capacidade">
+    <!-- <p>Selecione a quantidade de leite produzido por dia: (em litros)</p>
+    <input type="text" id="ipt_producao"> -->
+    <p>Insira o preço médio de venda do litro de leite: (em R$)</p>
+    <input type="text" id="ipt_preco">
+    <p>Insira o custo mensal da produção de leite: (em R$)</p>
+    <input type="text" id="ipt_custo">
+    <br>
+    <br>
+    <button onclick="calcular()">Calcular</button>
+    <p id="p_resultado"></p>
 </body>
 </html>
+<script>
+    function calcular() {
+        let armazenamento = Number(ipt_armazenamento.value);
+        let capacidade = Number(ipt_capacidade.value);
+        //let producao = Number(ipt_producao.value);
+        let preco = Number(ipt_preco.value);
+        let custoMensal = Number(ipt_custo.value);
+
+        let capacidadeTotal = armazenamento * capacidade;
+        let faturamentoDiario = (capacidadeTotal * preco) - (custoMensal / 30);
+        let faturamentoMensal = (faturamentoDiario * 30) - custoMensal;
+
+        let custoSensor = 1000;
+        let custoInstalacao = (custoSensor * armazenamento) + 10000;
+
+        let porcentagemCustoInstalacao = (custoInstalacao * 100) / faturamentoMensal;
+
+        p_resultado.innerHTML = `
+            Tendo em vista que a sua capacidade de armazenamento total é de ${capacidadeTotal.toLocaleString('pt-br')} litros e o preço do litro de leite produzido é de R$ ${preco.toLocaleString('pt-br')}, <br>
+            você pode deixar de ganhar até R$ ${faturamentoDiario.toLocaleString('pt-br')} por dia, R$ ${faturamentoMensal.toLocaleString('pt-br')} por mês e R$ ${(faturamentoMensal * 12).toLocaleString('pt-br')} por ano pela falta de controle de temperatura e umidade em seus tanques. <br>
+            <br>
+            Tendo isso em mente, a instalação do sensor IoT da MooTech te custará R$ ${custoInstalacao.toLocaleString('pt-br')} somente uma vez, o que equivale à ${porcentagemCustoInstalacao.toFixed(0)}% do faturamento mensal da sua produção.
+        `;
+    }
+</script>
