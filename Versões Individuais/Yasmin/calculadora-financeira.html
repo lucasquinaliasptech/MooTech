@@ -3,9 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Simulador da MooTech</title>
 </head>
 <body>
+    <h2>Simulador da MooTech 🐄</h2>
+    <br>
+
+    <p>Informe os litros de leite:</p>
+        <input type="number" name="" id="ipt_litros_de_leite">
+    <br>
+
+    <p>Informe o valor que você vende o litro do leite:</p>
+        <input type="number" name="" id="ipt_valor_litro_de_leite">
+
+    <p>Selecione o periodo:</p>
+        <select id="select_periodo">
+            <option value="diario">Diario</option>
+            <option value="semanal">Semanal</option>
+            <option value="mensal">Mensal</option>
+            <option value="anual">Anual</option>
+        </select>
+
+    <br><br>
+
+    <p>Você ultiliza o nosso sensor Iot?</p>
+        <select id="select_ultiliza_sensor_ou_nao">
+            <option value="selecione">Selecione</option>
+            <option value="não">Não</option>
+            <option value="sim">Sim</option>
+        </select>
+
+    
+    <button onclick="calcular()">Calcular</button>
+    <br>
+
+    <div id="div_mensagem"></div>
+
+
     
 </body>
+
 </html>
+<script>
+    function calcular(){
+        // Valores sobre a Quantidade e valor do leite
+        let litro = ipt_litros_de_leite.value;
+        let valor_por_litro = ipt_valor_litro_de_leite.value;
+        let preco_medio_do_leite_para_o_produtor = 2.26;
+        
+        let faturamento = litro * valor_por_litro;
+        let custo_de_producao = litro * preco_medio_do_leite_para_o_produtor;
+        let lucroBase = faturamento - custo_de_producao;
+        
+        // let prejuizo = litro*preco_medio_do_leite_para_o_produtor;
+        
+        // let total = prejuizo * valor_por_litro;
+
+        // Prejuizos quantificados se não ultiliza o sensor
+        let perdaSemSensor = lucroBase * 0.30;
+        let lucroSemSensor = lucroBase - perdaSemSensor;
+
+        // Prejuizos quantificados se ultiliza o sensor
+        let perdaComSensor = lucroBase * 0.05;
+        let lucroComSensor = lucroBase - perdaComSensor;
+
+        //diferença se não usar o sensor
+        let diferenca = perdaSemSensor - perdaComSensor;
+
+        // Selects que indicam periodo de venda e se ultiliza ou não o sensor
+        let periodo = select_periodo.value;
+        let ultilizacao = select_ultiliza_sensor_ou_nao.value;
+
+        let multiplicador = 1;
+
+        //Esse if ajuda na hora de fazer o calculo para mudança de cada período
+
+        if (periodo == 'semanal') {
+        multiplicador = 7;
+        } 
+        else if (periodo == 'mensal') {
+        multiplicador = 30;
+        } 
+        else if (periodo == 'anual') {
+        multiplicador = 365;
+        }
+        
+        div_mensagem.innerHTML = '';
+
+
+        if(litro == 0 || valor_por_litro == 0){
+            alert('Digite um valor válido, por favor!');
+        } 
+
+
+
+        //CASO NÃO ULTILIZAR O SENSOR
+    if(ultilizacao == 'não'){
+        if(periodo == 'diario' ){
+            div_mensagem.innerHTML += `<br> Valor do seu lucro diario: <b>R$${lucroSemSensor.toFixed(2)}</b>
+            <br><br>
+            Pegamos o a quantidade de litros que você nos indicou = <b>${litro}L,</b><br>
+            e multiplicamos pelo valor que você o vende = <b>R$ ${valor_por_litro}</b> <br> 
+            retirando já o custo medio de produção que se totaliza em R$ ${preco_medio_do_leite_para_o_produtor} por litro de leite (EMBRAPA),<br>  obtendo o lucro de <b>R$ ${lucroBase.toFixed(2)}</b>.
+            <br> Entretanto é 
+            retirado 30% que são dos prejuizos pela perda de produção devido aos problemas com a falta de monitoramento da temperatura,<br>
+            resultando em um prejuizo de <b><span style="color: darkred;">R$${perdaSemSensor.toFixed(2)}</span></b>
+            <br><br> 
+            Caso você utilizasse o sensor IoT da MooTech, essa perda seria reduzida para apenas 
+            <b>R$ ${perdaComSensor.toFixed(2)}</b>,<br>
+            gerando uma economia de <b>R$ ${diferenca.toFixed(2)}</b> em comparação ao não ultilizar monitoramento. 
+            <br>
+            <h3>Seu Lucro atual <b><span style="color: darkred;">R$ ${lucroSemSensor.toFixed(2)}</span></b>
+            <br>
+            Seu Lucro se você se juntar a MooTech <b><span style="color: darkgreen;">R$ ${lucroComSensor.toFixed(2)}</span></b></h3>`;
+            
+        }   
+        
+        else if (periodo == 'semanal'){
+        
+
+            div_mensagem.innerHTML += `<br>Valor do seu lucro semanal: <b>R$${((lucroSemSensor*multiplicador)).toFixed(2)}</b>
+            <br><br>
+            Pegamos o a quantidade de litros que você nos indicou = <b>${litro}L,</b><br>
+            e multiplicamos pelo valor que você o vende = <b>R$ ${valor_por_litro}</b> <br> 
+            retirando já o custo medio de produção que se totaliza em R$ ${preco_medio_do_leite_para_o_produtor} por litro de leite (EMBRAPA),<br>  obtendo o lucro de <b>R$ ${(lucroBase*multiplicador).toFixed(2)}</b>.
+            <br> Entretanto é 
+            retirado 30% que são dos prejuizos pela perda de produção devido aos problemas com a falta de monitoramento da temperatura,<br>
+            resultando em um prejuizo de <b><span style="color: darkred;">R$${(perdaSemSensor*multiplicador).toFixed(2)}</span></b>
+            <br><br> 
+            Caso você utilizasse o sensor IoT da MooTech, essa perda seria reduzida para apenas 
+            <b>R$ ${(perdaComSensor*multiplicador).toFixed(2)}</b>,<br>
+            gerando uma economia de <b>R$ ${(diferenca*multiplicador).toFixed(2)}</b> em comparação ao não ultilizar monitoramento. 
+            <br>
+            <h3>Seu Lucro atual <b><span style="color: darkred;">R$ ${(lucroSemSensor*multiplicador).toFixed(2)}</span></b>
+            <br>
+            Seu Lucro se você se juntar a MooTech <b><span style="color: darkgreen;">R$ ${(lucroComSensor*multiplicador).toFixed(2)}</span></b></h3>`;
+        }
+        
+         else if (periodo == 'mensal'){
+              div_mensagem.innerHTML += `<br>Valor do seu lucro Mensal: <b>R$${((lucroSemSensor*multiplicador)).toFixed(2)}</b>
+            <br><br>
+            Pegamos o a quantidade de litros que você nos indicou = <b>${litro}L,</b><br>
+            e multiplicamos pelo valor que você o vende = <b>R$ ${valor_por_litro}</b> <br> 
+            retirando já o custo medio de produção que se totaliza em R$ ${preco_medio_do_leite_para_o_produtor} por litro de leite (EMBRAPA),<br>  obtendo o lucro de <b>R$ ${(lucroBase*multiplicador).toFixed(2)}</b>.
+            <br> Entretanto é 
+            retirado 30% que são dos prejuizos pela perda de produção devido aos problemas com a falta de monitoramento da temperatura,<br>
+            resultando em um prejuizo de <b><span style="color: darkred;">R$${(perdaSemSensor*multiplicador).toFixed(2)}</span></b>
+            <br><br> 
+            Caso você utilizasse o sensor IoT da MooTech, essa perda seria reduzida para apenas 
+            <b>R$ ${(perdaComSensor*multiplicador).toFixed(2)}</b>,<br>
+            gerando uma economia de <b>R$ ${(diferenca*multiplicador).toFixed(2)}</b> em comparação ao não ultilizar monitoramento. 
+            <br>
+            <h3>Seu Lucro atual <b><span style="color: darkred;">R$ ${(lucroSemSensor*multiplicador).toFixed(2)}</span></b>
+            <br>
+            Seu Lucro se você se juntar a MooTech <b><span style="color: darkgreen;">R$ ${(lucroComSensor*multiplicador).toFixed(2)}</span></b></h3>`;
+         }
+
+         else if (periodo == 'anual'){
+             div_mensagem.innerHTML += `<br>Valor do seu lucro Anual: <b>R$${((lucroSemSensor*multiplicador)).toFixed(2)}</b>
+            <br><br>
+            Pegamos o a quantidade de litros que você nos indicou = <b>${litro}L,</b><br>
+            e multiplicamos pelo valor que você o vende = <b>R$ ${valor_por_litro}</b> <br> 
+            retirando já o custo medio de produção que se totaliza em R$ ${preco_medio_do_leite_para_o_produtor} por litro de leite (EMBRAPA),<br>  obtendo o lucro de <b>R$ ${(lucroBase*multiplicador).toFixed(2)}</b>.
+            <br> Entretanto é 
+            retirado 30% que são dos prejuizos pela perda de produção devido aos problemas com a falta de monitoramento da temperatura,<br>
+            resultando em um prejuizo de <b><span style="color: darkred;">R$${(perdaSemSensor*multiplicador).toFixed(2)}</span></b>
+            <br><br> 
+            Caso você utilizasse o sensor IoT da MooTech, essa perda seria reduzida para apenas 
+            <b>R$ ${(perdaComSensor*multiplicador).toFixed(2)}</b>,<br>
+            gerando uma economia de <b>R$ ${(diferenca*multiplicador).toFixed(2)}</b> em comparação ao não ultilizar monitoramento. 
+            <br>
+            <h3>Seu Lucro atual <b><span style="color: darkred;">R$ ${(lucroSemSensor*multiplicador).toFixed(2)}</span></b>
+            <br>
+            Seu Lucro se você se juntar a MooTech <b><span style="color: darkgreen;">R$ ${(lucroComSensor*multiplicador).toFixed(2)}</span></b></h3>`;
+         }
+         }
+
+
+
+         //CASO ULTILIZAR O SENSOR
+
+
+
+         else if (ultilizacao == 'sim'){
+            if(periodo == 'diario' ){
+            div_mensagem.innerHTML += `<br> Valor do seu lucro Diario: <b>R$${lucroComSensor.toFixed(2)}</b>
+            <br><br>
+            Pegamos o a quantidade de litros que você nos indicou = <b>${litro}L,</b><br>
+            e multiplicamos pelo valor que você o vende = <b>R$ ${valor_por_litro}</b> <br> 
+            retirando já o custo medio de produção que se totaliza em R$ ${preco_medio_do_leite_para_o_produtor} por litro de leite (EMBRAPA),<br>  obtendo o lucro de <b>R$ ${lucroBase.toFixed(2)}</b>.
+            <br> Diferentemente de quando não usa o sensor que o prejuizo é de 30%,<br>
+            nós da MooTech te asseguramos que 25% desses prejuizos não iram te afetar. Sendo então o prejuizo em apenas 5%<br>
+            resultando em um prejuizo de <b><span style="color: darkred;">R$${perdaComSensor.toFixed(2)}</span></b>
+            <br><br> 
+            Caso você não utilizasse o sensor IoT da MooTech, essa perda seria aumentada para 
+            <b>R$ ${perdaSemSensor.toFixed(2)}</b>,<br>
+            <h3>Seu Lucro atual <b><span style="color:darkgreen ;">R$ ${lucroComSensor.toFixed(2)}</span></b>
+            <br>
+            Seu Lucro se você sair da MooTech <b><span style="color: darkred;">R$ ${lucroSemSensor.toFixed(2)}</span></b></h3>`;
+            
+        }   
+        
+        else if (periodo == 'semanal'){
+        
+
+            div_mensagem.innerHTML += `<br> Valor do seu lucro Semanal: <b>R$${((lucroComSensor*multiplicador)).toFixed(2)}</b>
+            <br><br>
+            Pegamos o a quantidade de litros que você nos indicou = <b>${litro}L,</b><br>
+            e multiplicamos pelo valor que você o vende = <b>R$ ${valor_por_litro}</b> <br> 
+            retirando já o custo medio de produção que se totaliza em R$ ${preco_medio_do_leite_para_o_produtor} por litro de leite (EMBRAPA),<br>  obtendo o lucro de <b>R$ ${(lucroBase*multiplicador).toFixed(2)}</b>.
+            <br> Diferentemente de quando não usa o sensor que o prejuizo é de 30%,<br>
+            nós da MooTech te asseguramos que 25% desses prejuizos não iram te afetar. Sendo então o prejuizo em apenas 5%<br>
+            resultando em um prejuizo de <b><span style="color: darkred;">R$${(perdaComSensor*multiplicador).toFixed(2)}</span></b>
+            <br><br> 
+            Caso você não utilizasse o sensor IoT da MooTech, essa perda seria aumentada para 
+            <b>R$ ${(perdaSemSensor*multiplicador).toFixed(2)}</b>,<br>
+            <h3>Seu Lucro atual <b><span style="color:darkgreen ;">R$ ${(lucroComSensor*multiplicador).toFixed(2)}</span></b>
+            <br>
+            Seu Lucro se você sair da MooTech <b><span style="color: darkred;">R$ ${(lucroSemSensor*multiplicador).toFixed(2)}</span></b></h3>`;
+        }
+        
+         else if (periodo == 'mensal'){
+              div_mensagem.innerHTML += `<br> Valor do seu lucro Mensal: <b>R$${lucroComSensor.toFixed(2)}</b>
+            <br><br>
+            Pegamos o a quantidade de litros que você nos indicou = <b>${litro}L,</b><br>
+            e multiplicamos pelo valor que você o vende = <b>R$ ${valor_por_litro}</b> <br> 
+            retirando já o custo medio de produção que se totaliza em R$ ${preco_medio_do_leite_para_o_produtor} por litro de leite (EMBRAPA),<br>  obtendo o lucro de <b>R$ ${(lucroBase*multiplicador).toFixed(2)}</b>.
+            <br> Diferentemente de quando não usa o sensor que o prejuizo é de 30%,<br>
+            nós da MooTech te asseguramos que 25% desses prejuizos não iram te afetar. Sendo então o prejuizo em apenas 5%<br>
+            resultando em um prejuizo de <b><span style="color: darkred;">R$${(perdaComSensor*multiplicador).toFixed(2)}</span></b>
+            <br><br> 
+            Caso você não utilizasse o sensor IoT da MooTech, essa perda seria aumentada para 
+            <b>R$ ${(perdaSemSensor*multiplicador).toFixed(2)}</b>,<br>
+            <h3>Seu Lucro atual <b><span style="color:darkgreen ;">R$ ${(lucroComSensor*multiplicador).toFixed(2)}</span></b>
+            <br>
+            Seu Lucro se você sair da MooTech <b><span style="color: darkred;">R$ ${(lucroSemSensor*multiplicador).toFixed(2)}</span></b></h3>`;
+         }
+
+         else if (periodo == 'anual'){
+             div_mensagem.innerHTML += `<br> Valor do seu lucro Anual: <b>R$${lucroComSensor.toFixed(2)}</b>
+            <br><br>
+            Pegamos o a quantidade de litros que você nos indicou = <b>${litro}L,</b><br>
+            e multiplicamos pelo valor que você o vende = <b>R$ ${valor_por_litro}</b> <br> 
+            retirando já o custo medio de produção que se totaliza em R$ ${preco_medio_do_leite_para_o_produtor} por litro de leite (EMBRAPA),<br>  obtendo o lucro de <b>R$ ${(lucroBase*multiplicador).toFixed(2)}</b>.
+            <br> Diferentemente de quando não usa o sensor que o prejuizo é de 30%,<br>
+            nós da MooTech te asseguramos que 25% desses prejuizos não iram te afetar. Sendo então o prejuizo em apenas 5%<br>
+            resultando em um prejuizo de <b><span style="color: darkred;">R$${(perdaComSensor*multiplicador).toFixed(2)}</span></b>
+            <br><br> 
+            Caso você não utilizasse o sensor IoT da MooTech, essa perda seria aumentada para 
+            <b>R$ ${(perdaSemSensor*multiplicador).toFixed(2)}</b>,<br>
+            <h3>Seu Lucro atual <b><span style="color:darkgreen ;">R$ ${(lucroComSensor*multiplicador).toFixed(2)}</span></b>
+            <br>
+            Seu Lucro se você sair da MooTech <b><span style="color: darkred;">R$ ${(lucroSemSensor*multiplicador).toFixed(2)}</span></b></h3>`;
+         }
+         }
+
+
+
+    }
+
+</script>
