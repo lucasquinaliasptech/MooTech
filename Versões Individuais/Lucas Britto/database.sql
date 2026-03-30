@@ -30,7 +30,7 @@ insert into cliente (nomeCompleto, email, telefone, fkEmpresa) values
 ('Lucas de Britto Cruz', 'lucas@mootech.com.br', '11988887777', 1),
 ('Augusto Lins Pereira', 'augusto@laticiniosp.com.br', '11977776666', 2);
 
--- ///////////////////////////////////////////////////////////////////////////////////////////
+-- ////////////////////////////////////////////////////////////////////////////////////////////
 
 create table usuario (
 id int primary key auto_increment,
@@ -49,7 +49,7 @@ insert into usuario (nome, email, senha, tipo, fkCliente, fkEmpresa) values
 ('Lucas Britto', 'lucas@mootech.com', 'Moo#2026', 'Admin', 100, 1),
 ('Augusto Lins', 'augusto@laticiniosp.com', 'Tech@Lins123', 'Técnico', 101, 2);
 
--- ///////////////////////////////////////////////////////////////////////////////////////////
+-- ////////////////////////////////////////////////////////////////////////////////////////////
 
 create table sensor (
 id int primary key auto_increment,
@@ -68,7 +68,7 @@ insert into sensor (num_serie, local_instalacao, data_instalacao, fkEmpresa) val
 ('MT-TEMP-002', 'Tanque de Resfriamento A2', '2026-03-01 10:30:00', 1),
 ('LT-TEMP-050', 'Tanque de Resfriamento Ala 2', '2026-03-10 09:00:00', 2);
 
--- ///////////////////////////////////////////////////////////////////////////////////////////
+-- ////////////////////////////////////////////////////////////////////////////////////////////
 
 create table leitorSensor (
 id int primary key auto_increment,
@@ -85,7 +85,7 @@ insert into leitorSensor (temperatura, umidade, data_hora, fkSensor) values
 (5, 65, '2026-03-28 14:00:00', 1), -- ALERTA: 5°C / 65% (Risco de CBT)
 (3, 54, '2026-03-28 15:00:00', 3); -- Indústria: 3°C / 54%
 
--- ///////////////////////////////////////////////////////////////////////////////////////////
+-- ////////////////////////////////////////////////////////////////////////////////////////////
 -- Selects
 
 -- Monitoramento Geral
