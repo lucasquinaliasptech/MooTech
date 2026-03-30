@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora MooTech</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+<h1>Calculadora Financeira</h1>
+<p class="subtitulo">
+Compare o prejuízo de um produtor <strong>sem sensor</strong> e <strong>com sensor</strong>
+de controle de temperatura e umidade.
+</p>
+
+<div class="campo">
+<label for="gado">Quantidade de vacas</label>
+<input type="number" id="gado" placeholder="Ex: 50">
+</div>
+
+<div class="campo">
+<label for="valor_leite">Valor do litro de leite (R$)</label>
+<input type="number" id="valor_leite" step="0.01" placeholder="Ex: 2.80">
+</div>
+
+<div class="campo">
+<label for="perda_sem_sensor">Perda sem sensor (%)</label>
+<input type="number" id="perda_sem_sensor" value="10" placeholder="Ex: 10">
+</div>
+
+<div class="campo">
+<label for="perda_com_sensor">Perda com sensor (%)</label>
+<input type="number" id="perda_com_sensor" value="2" placeholder="Ex: 2">
+
+
+<button onclick="calcular()">Calcular comparação</button>
+
+<div id="resultado"></div>
+
+
+</body>
+</html>
+
+
+Script 
+
+<script>
+
+
+function calcular() {
+let gado = Number(document.getElementById("gado").value);
+let valorLeite = Number(document.getElementById("valor_leite").value);
+let perdaSemSensor = Number(document.getElementById("perda_sem_sensor").value);
+let perdaComSensor = Number(document.getElementById("perda_com_sensor").value);
+
+let resultado = document.getElementById("resultado");
+
+if (
+gado <= 0 ||
+valorLeite <= 0 ||
+perdaSemSensor < 0 ||
+perdaComSensor < 0 ||
+perdaSemSensor > 100 ||
+perdaComSensor > 100
+) {
+resultado.innerHTML = `
+<div class="erro">
+Preencha todos os campos com valores válidos.
+</div>
+`;
+return;
+}
+
+if (perdaComSensor > perdaSemSensor) {
+resultado.innerHTML = `
+<div class="erro">
+A perda com sensor não pode ser maior que a perda sem sensor.
+</div>
+`;
+return;
+}
+
+// produção total por dia
+let producaoDiaria = gado * 20;
+
+// SEM SENSOR
+let litrosPerdidosSemDia = producaoDiaria * (perdaSemSensor / 100);
+let prejuizoSemDia = litrosPerdidosSemDia * valorLeite;
+let litrosPerdidosSemMes = litrosPerdidosSemDia * 30;
+let prejuizoSemMes = prejuizoSemDia * 30;
+let litrosPerdidosSemAno = litrosPerdidosSemDia * 365;
+let prejuizoSemAno = prejuizoSemDia * 365;
+
+// COM SENSOR
+let litrosPerdidosComDia = producaoDiaria * (perdaComSensor / 100);
+let prejuizoComDia = litrosPerdidosComDia * valorLeite;
+let litrosPerdidosComMes = litrosPerdidosComDia * 30;
+let prejuizoComMes = prejuizoComDia * 30;
+let litrosPerdidosComAno = litrosPerdidosComDia * 365;
+let prejuizoComAno = prejuizoComDia * 365;
+
+// ECONOMIA / RECUPERAÇÃO
+let litrosRecuperadosDia = litrosPerdidosSemDia - litrosPerdidosComDia;
+let litrosRecuperadosMes = litrosPerdidosSemMes - litrosPerdidosComMes;
+let litrosRecuperadosAno = litrosPerdidosSemAno - litrosPerdidosComAno;
+
+let economiaDia = prejuizoSemDia - prejuizoComDia;
+let economiaMes = prejuizoSemMes - prejuizoComMes;
+let economiaAno = prejuizoSemAno - prejuizoComAno;
+
+resultado.innerHTML = `
+<h2 class="resultado-titulo">Resultado da Simulação</h2>
+
+<div class="card">
+<h3>Produção total</h3>
+<p><strong>Produção diária:</strong> ${producaoDiaria.toFixed(2)} litros</p>
+<p><strong>Produção mensal:</strong> ${(producaoDiaria * 30).toFixed(2)} litros</p>
+<p><strong>Produção anual:</strong> ${(producaoDiaria * 365).toFixed(2)} litros</p>
+</div>
+
+<div class="card">
+<h3>Cenário sem sensor</h3>
+<p><strong>Percentual de perda:</strong> ${perdaSemSensor.toFixed(2)}%</p>
+<p><strong>Perda diária:</strong> ${litrosPerdidosSemDia.toFixed(2)} litros</p>
+<p><strong>Prejuízo diário R$:</strong> ${(prejuizoSemDia.toFixed(2))}</p>
+<p><strong>Prejuízo mensal R$:</strong> ${(prejuizoSemMes.toFixed(2))}</p>
+<p><strong>Prejuízo anual R$:</strong> ${(prejuizoSemAno.toFixed(2))}</p>
+</div>
+
+<div class="card">
+<h3>Cenário com sensor</h3>
+<p><strong>Percentual de perda:</strong> ${perdaComSensor.toFixed(2)}%</p>
+<p><strong>Perda diária:</strong> ${litrosPerdidosComDia.toFixed(2)} litros</p>
+<p><strong>Prejuízo diário R$:</strong> ${(prejuizoComDia.toFixed(2))}</p>
+<p><strong>Prejuízo mensal R$:</strong> ${(prejuizoComMes.toFixed(2))}</p>
+<p><strong>Prejuízo anual R$:</strong> ${(prejuizoComAno.toFixed(2))}</p>
+</div>
+
+<div class="card destaque">
+<h3>Economia gerada com sensor</h3>
+<p><strong>Litros recuperados por dia:</strong> ${litrosRecuperadosDia.toFixed(2)} litros</p>
+<p><strong>Litros recuperados por mês:</strong> ${litrosRecuperadosMes.toFixed(2)} litros</p>
+<p><strong>Litros recuperados por ano:</strong> ${litrosRecuperadosAno.toFixed(2)} litros</p>
+<p><strong>Economia por dia R$:</strong> ${(economiaDia.toFixed(2))}</p>
+<p><strong>Economia por mês R$:</strong> ${(economiaMes.toFixed(2))}</p>
+<p><strong>Economia por ano R$:</strong> ${(economiaAno.toFixed(2))}</p>
+</div>
+`;
+}
+
+</script>
