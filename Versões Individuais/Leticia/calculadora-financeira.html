@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+</head>
+<body>
+    <h2>Simulador financeiro de custos</h2>
+    <br>
+
+    <p>Informe os litros de leite:</p>
+    <input id="ipt_litros">
+    <br>
+    <p>Informe o valor do litro do leite:</p>
+    <input id="ipt_valor_litro">
+    <p>Selecione o periodo:</p>
+    <select id="select_dias">
+        <option value="diario">Diario</option>
+        <option value="semanal">Semanal</option>
+        <option value="mensal">Mensal</option>
+        <option value="anual">Anual</option>
+    </select>
+    <br>
+    <br>
+    <button onclick="calcular()">Calcular</button>
+    <br>
+    <div id="div_mensagem"></div>
+</body>
+</html>
+<script>
+    function calcular(){
+        let litro = Number(ipt_litros.value);
+        let valorL = Number(ipt_valor_litro.value);
+        let total = litro * valorL;
+        let porcentagem = total * 0.3;
+        let selecao = select_dias.value;
+        
+        div_mensagem.innerHTML = '';
+
+        if(litro == 0 || valorL == 0){
+            alert('Insira um valor valido!');
+        } 
+
+        if(selecao == 'diario'){
+            div_mensagem.innerHTML += `Valor de leite diario: R$${porcentagem.toFixed(2)}<br> 
+            O calculo é realizado multiplicando os litros de leite com o valor atual, 
+            é então retirando os 30% dos prejuizos pela perda de insumo por culpa de problemas de temperatura.`
+        } else if (selecao == 'semanal'){
+            div_mensagem.innerHTML += `Valor de leite semanal: R$${(porcentagem * 7).toFixed(2)}<br>
+            O calculo é realizado multiplicando os litros de leite com o valor atual, 
+            é então retirando os 30% dos prejuizos pela perda de insumo por culpa de problemas de temperatura.`
+        } else if (selecao == 'mensal'){
+            div_mensagem.innerHTML += `Valor de leite mensal: R$${(porcentagem * 30).toFixed(2)}<br>
+            O calculo é realizado multiplicando os litros de leite com o valor atual, 
+            é então retirando os 30% dos prejuizos pela perda de insumo por culpa de problemas de temperatura.`
+        } else if (selecao == 'anual'){
+            div_mensagem.innerHTML += `Valor de leite anual: R$${(porcentagem * 365).toFixed(2)}<br>
+            O calculo é realizado multiplicando os litros de leite com o valor atual, 
+            é então retirando os 30% dos prejuizos pela perda de insumo por culpa de problemas de temperatura.`
+        }
+
+    }
+
+</script>
