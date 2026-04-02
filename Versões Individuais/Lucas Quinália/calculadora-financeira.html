@@ -12,11 +12,9 @@
     <input type="text" id="ipt_armazenamento">
     <p>Insira a capacidade média dos tanques de armazenamento de leite que você possui: (em litros)</p>
     <input type="text" id="ipt_capacidade">
-    <!-- <p>Selecione a quantidade de leite produzido por dia: (em litros)</p>
-    <input type="text" id="ipt_producao"> -->
     <p>Insira o preço médio de venda do litro de leite: (em R$)</p>
     <input type="text" id="ipt_preco">
-    <p>Insira o custo mensal da produção de leite: (em R$)</p>
+    <p>Porcentagem de perda:</p>
     <input type="text" id="ipt_custo">
     <br>
     <br>
@@ -28,24 +26,38 @@
     function calcular() {
         let armazenamento = Number(ipt_armazenamento.value);
         let capacidade = Number(ipt_capacidade.value);
-        //let producao = Number(ipt_producao.value);
         let preco = Number(ipt_preco.value);
-        let custoMensal = Number(ipt_custo.value);
+        let porcentagem = Number(ipt_custo.value) / 100;
 
-        let capacidadeTotal = armazenamento * capacidade;
-        let faturamentoDiario = (capacidadeTotal * preco) - (custoMensal / 30);
-        let faturamentoMensal = (faturamentoDiario * 30) - custoMensal;
+        let porcentagemFixa = 0.3;
+
+        let capacidadeTotal = armazenamento * capacidade; /* Quantidade de Leite produzido */
+        let faturamentoDiario = (capacidadeTotal * preco); /* Valor Diario da producao */
+        let faturamentoMensal = (faturamentoDiario * 30); /* Valor Mensal da producao */
+        let faturamentoAnual = (faturamentoDiario * 355); /* Valor Anual da producao */
+
 
         let custoSensor = 1000;
-        let custoInstalacao = (custoSensor * armazenamento) + 10000;
+        let custoInstalacao = (custoSensor * armazenamento) + 10000; /* Valor do sensor pra cada tanque + mao de obra */
+        let porcentagemCustoInstalacao = (custoInstalacao * 100) / faturamentoMensal; /* Indice do porcentual de quanto vale ao mensal do produtor*/
 
-        let porcentagemCustoInstalacao = (custoInstalacao * 100) / faturamentoMensal;
-
-        p_resultado.innerHTML = `
+        if (porcentagem === 0 || porcentagem === ""){
+            p_resultado.innerHTML = `
             Tendo em vista que a sua capacidade de armazenamento total é de ${capacidadeTotal.toLocaleString('pt-br')} litros e o preço do litro de leite produzido é de R$ ${preco.toLocaleString('pt-br')}, <br>
-            você pode deixar de ganhar até R$ ${faturamentoDiario.toLocaleString('pt-br')} por dia, R$ ${faturamentoMensal.toLocaleString('pt-br')} por mês e R$ ${(faturamentoMensal * 12).toLocaleString('pt-br')} por ano pela falta de controle de temperatura e umidade em seus tanques. <br>
+            você pode perder até R$ ${(faturamentoDiario * porcentagemFixa).toLocaleString('pt-br')} por dia, R$ ${(faturamentoMensal * porcentagemFixa).toLocaleString('pt-br')} por mês e R$ ${(faturamentoAnual * porcentagemFixa).toLocaleString('pt-br')} por ano pela falta de controle de temperatura e umidade em seus tanques. <br>
             <br>
-            Tendo isso em mente, a instalação do sensor IoT da MooTech te custará R$ ${custoInstalacao.toLocaleString('pt-br')} somente uma vez, o que equivale à ${porcentagemCustoInstalacao.toFixed(0)}% do faturamento mensal da sua produção.
-        `;
+            Realizamos a conta com uma porcentagem fixa de 30% para usar de base o quanto voce perde com problemas de monitoramento de temperatura. Fonte: Embrapa.
+            <br>
+            <br>
+            <br>
+            Tendo isso em mente, a instalação do sensor IoT da MooTech te custará R$ ${custoInstalacao.toLocaleString('pt-br')} somente uma vez, o que equivale à ${porcentagemCustoInstalacao.toFixed(0)}% do faturamento mensal da sua produção.`
+        } else { 
+            p_resultado.innerHTML = 
+            `
+            Tendo em vista que a sua capacidade de armazenamento total é de ${capacidadeTotal.toLocaleString('pt-br')} litros e o preço do litro de leite produzido é de R$ ${preco.toLocaleString('pt-br')}, <br>
+            você pode perder até R$ ${(faturamentoDiario * porcentagem).toLocaleString('pt-br')} por dia, R$ ${(faturamentoMensal * porcentagem).toLocaleString('pt-br')} por mês e R$ ${(faturamentoAnual * porcentagem).toLocaleString('pt-br')} por ano pela falta de controle de temperatura e umidade em seus tanques. <br>
+            <br>
+            Tendo isso em mente, a instalação do sensor IoT da MooTech te custará R$ ${custoInstalacao.toLocaleString('pt-br')} somente uma vez, o que equivale à ${porcentagemCustoInstalacao.toFixed(0)}% do faturamento mensal da sua produção.`
+        }
     }
 </script>

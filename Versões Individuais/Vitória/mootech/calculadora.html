@@ -8,146 +8,185 @@
 </head>
 <body>
 
-<div class="container">
-<h1>Calculadora Financeira</h1>
-<p class="subtitulo">
-Compare o prejuízo de um produtor <strong>sem sensor</strong> e <strong>com sensor</strong>
-de controle de temperatura e umidade.
-</p>
+    <div class="container">
+        <h1>Calculadora Financeira</h1>
+        <p class="subtitulo">
+        Compare o prejuízo de um produtor <strong>sem sensor</strong> e <strong>com sensor</strong>
+        de controle de temperatura e umidade.
+        </p>
 
-<div class="campo">
-<label for="gado">Quantidade de vacas</label>
-<input type="number" id="gado" placeholder="Ex: 50">
-</div>
+        <div class="campo">
+            <p>Quantidade de tanques de armazenamento de leite</p>
+            <input id="gado" placeholder="Ex: 50">
+        </div>
 
-<div class="campo">
-<label for="valor_leite">Valor do litro de leite (R$)</label>
-<input type="number" id="valor_leite" step="0.01" placeholder="Ex: 2.80">
-</div>
+        <div class="campo">
+            <p>Capacidade média dos tanques de armazenamento de leite</p>
+            <input id="capacidade_tanque" placeholder="Ex: 1000">
+        </div>
 
-<div class="campo">
-<label for="perda_sem_sensor">Perda sem sensor (%)</label>
-<input type="number" id="perda_sem_sensor" value="10" placeholder="Ex: 10">
-</div>
+        <div class="campo">
+            <p>Valor do litro de leite (R$)</p>
+            <input id="valor_leite" step="0.01" placeholder="Ex: 2.80">
+        </div>
 
-<div class="campo">
-<label for="perda_com_sensor">Perda com sensor (%)</label>
-<input type="number" id="perda_com_sensor" value="2" placeholder="Ex: 2">
+        <div class="campo">
+            <p>Perda sem sensor (%)</p>
+            <input id="perda_sem_sensor" value="10" placeholder="Ex: 10">
+    </div>
 
+    <button onclick="calcular()">Calcular comparação</button>
 
-<button onclick="calcular()">Calcular comparação</button>
-
-<div id="resultado"></div>
+    <div id="resultado"></div>
 
 
 </body>
 </html>
-
-
-Script 
-
 <script>
 
-
 function calcular() {
-let gado = Number(document.getElementById("gado").value);
-let valorLeite = Number(document.getElementById("valor_leite").value);
-let perdaSemSensor = Number(document.getElementById("perda_sem_sensor").value);
-let perdaComSensor = Number(document.getElementById("perda_com_sensor").value);
+    let tanque = Number(gado.value);
+    let capacidade = Number(capacidade_tanque.value)
+    let valorLeite = Number(valor_leite.value);
+    let perdaSemSensor = Number(perda_sem_sensor.value);
+    let perdaComSensor = 0.05;
+    let porcentagemFixa = 0.3;
 
-let resultado = document.getElementById("resultado");
+    if (tanque <= 0 || capacidade <= 0 || valorLeite <= 0 || perdaSemSensor > 100) {
+        resultado.innerHTML = `
+        <div class="erro">
+        Preencha todos os campos com valores válidos.
+        </div>`;
+    }
 
-if (
-gado <= 0 ||
-valorLeite <= 0 ||
-perdaSemSensor < 0 ||
-perdaComSensor < 0 ||
-perdaSemSensor > 100 ||
-perdaComSensor > 100
-) {
-resultado.innerHTML = `
-<div class="erro">
-Preencha todos os campos com valores válidos.
-</div>
-`;
-return;
-}
+    // produção total por dia
+    let producaoDiaria = tanque * 20;
 
-if (perdaComSensor > perdaSemSensor) {
-resultado.innerHTML = `
-<div class="erro">
-A perda com sensor não pode ser maior que a perda sem sensor.
-</div>
-`;
-return;
-}
+    // SEM SENSOR
+    let litrosPerdidosSemDia = producaoDiaria * (perdaSemSensor / 100);
+    let litrosPerdidosSemDiaFixo = producaoDiaria * porcentagemFixa;
 
-// produção total por dia
-let producaoDiaria = gado * 20;
+    let prejuizoSemDia = litrosPerdidosSemDia * valorLeite;
+    let prejuizoSemDiaFixo = litrosPerdidosSemDiaFixo * valorLeite;
 
-// SEM SENSOR
-let litrosPerdidosSemDia = producaoDiaria * (perdaSemSensor / 100);
-let prejuizoSemDia = litrosPerdidosSemDia * valorLeite;
-let litrosPerdidosSemMes = litrosPerdidosSemDia * 30;
-let prejuizoSemMes = prejuizoSemDia * 30;
-let litrosPerdidosSemAno = litrosPerdidosSemDia * 365;
-let prejuizoSemAno = prejuizoSemDia * 365;
+    let litrosPerdidosSemMes = litrosPerdidosSemDia * 30;
+    let litrosPerdidosSemMesFixo = litrosPerdidosSemDiaFixo * 30;
 
-// COM SENSOR
-let litrosPerdidosComDia = producaoDiaria * (perdaComSensor / 100);
-let prejuizoComDia = litrosPerdidosComDia * valorLeite;
-let litrosPerdidosComMes = litrosPerdidosComDia * 30;
-let prejuizoComMes = prejuizoComDia * 30;
-let litrosPerdidosComAno = litrosPerdidosComDia * 365;
-let prejuizoComAno = prejuizoComDia * 365;
+    let prejuizoSemMes = prejuizoSemDia * 30;
+    let prejuizoSemMesFixo = prejuizoSemDiaFixo * 30;
 
-// ECONOMIA / RECUPERAÇÃO
-let litrosRecuperadosDia = litrosPerdidosSemDia - litrosPerdidosComDia;
-let litrosRecuperadosMes = litrosPerdidosSemMes - litrosPerdidosComMes;
-let litrosRecuperadosAno = litrosPerdidosSemAno - litrosPerdidosComAno;
+    let litrosPerdidosSemAno = litrosPerdidosSemDia * 365;
+    let litrosPerdidosSemAnoFixo = litrosPerdidosSemDiaFixo * 365;
 
-let economiaDia = prejuizoSemDia - prejuizoComDia;
-let economiaMes = prejuizoSemMes - prejuizoComMes;
-let economiaAno = prejuizoSemAno - prejuizoComAno;
+    let prejuizoSemAno = prejuizoSemDia * 365;
+    let prejuizoSemAnoFixo = prejuizoSemDiaFixo * 365;
 
-resultado.innerHTML = `
-<h2 class="resultado-titulo">Resultado da Simulação</h2>
 
-<div class="card">
-<h3>Produção total</h3>
-<p><strong>Produção diária:</strong> ${producaoDiaria.toFixed(2)} litros</p>
-<p><strong>Produção mensal:</strong> ${(producaoDiaria * 30).toFixed(2)} litros</p>
-<p><strong>Produção anual:</strong> ${(producaoDiaria * 365).toFixed(2)} litros</p>
-</div>
+    // COM SENSOR
+    let litrosPerdidosComDia = producaoDiaria * perdaComSensor;
+    let prejuizoComDia = litrosPerdidosComDia * valorLeite;
+    let litrosPerdidosComMes = litrosPerdidosComDia * 30;
+    let prejuizoComMes = prejuizoComDia * 30;
+    let litrosPerdidosComAno = litrosPerdidosComDia * 365;
+    let prejuizoComAno = prejuizoComDia * 365;
 
-<div class="card">
-<h3>Cenário sem sensor</h3>
-<p><strong>Percentual de perda:</strong> ${perdaSemSensor.toFixed(2)}%</p>
-<p><strong>Perda diária:</strong> ${litrosPerdidosSemDia.toFixed(2)} litros</p>
-<p><strong>Prejuízo diário R$:</strong> ${(prejuizoSemDia.toFixed(2))}</p>
-<p><strong>Prejuízo mensal R$:</strong> ${(prejuizoSemMes.toFixed(2))}</p>
-<p><strong>Prejuízo anual R$:</strong> ${(prejuizoSemAno.toFixed(2))}</p>
-</div>
+    // ECONOMIA / RECUPERAÇÃO
+    let litrosRecuperadosDia = litrosPerdidosSemDia - litrosPerdidosComDia;
+    let litrosRecuperadosMes = litrosPerdidosSemMes - litrosPerdidosComMes;
+    let litrosRecuperadosAno = litrosPerdidosSemAno - litrosPerdidosComAno;
 
-<div class="card">
-<h3>Cenário com sensor</h3>
-<p><strong>Percentual de perda:</strong> ${perdaComSensor.toFixed(2)}%</p>
-<p><strong>Perda diária:</strong> ${litrosPerdidosComDia.toFixed(2)} litros</p>
-<p><strong>Prejuízo diário R$:</strong> ${(prejuizoComDia.toFixed(2))}</p>
-<p><strong>Prejuízo mensal R$:</strong> ${(prejuizoComMes.toFixed(2))}</p>
-<p><strong>Prejuízo anual R$:</strong> ${(prejuizoComAno.toFixed(2))}</p>
-</div>
+    // ECONOMIA / RECUPERAÇÃO FIXA
+    let litrosRecuperadosDiaFixo = litrosPerdidosSemDiaFixo - litrosPerdidosComDia;
+    let litrosRecuperadosMesFixo = litrosPerdidosSemMesFixo - litrosPerdidosComMes;
+    let litrosRecuperadosAnoFixo = litrosPerdidosSemAnoFixo - litrosPerdidosComAno;
 
-<div class="card destaque">
-<h3>Economia gerada com sensor</h3>
-<p><strong>Litros recuperados por dia:</strong> ${litrosRecuperadosDia.toFixed(2)} litros</p>
-<p><strong>Litros recuperados por mês:</strong> ${litrosRecuperadosMes.toFixed(2)} litros</p>
-<p><strong>Litros recuperados por ano:</strong> ${litrosRecuperadosAno.toFixed(2)} litros</p>
-<p><strong>Economia por dia R$:</strong> ${(economiaDia.toFixed(2))}</p>
-<p><strong>Economia por mês R$:</strong> ${(economiaMes.toFixed(2))}</p>
-<p><strong>Economia por ano R$:</strong> ${(economiaAno.toFixed(2))}</p>
-</div>
-`;
+    // PORCENTAGEM FIXA
+    let economiaDiaFixo = prejuizoSemDiaFixo - prejuizoComDia;
+    let economiaMesFixo = prejuizoSemMesFixo - prejuizoComMes;
+    let economiaAnoFixo = prejuizoSemAnoFixo - prejuizoComAno;
+
+    // PORCENTAGEM INFORMADA
+    let economiaDia = prejuizoSemDia - prejuizoComDia;
+    let economiaMes = prejuizoSemMes - prejuizoComMes;
+    let economiaAno = prejuizoSemAno - prejuizoComAno;
+
+
+    if (perdaSemSensor == ""){
+        resultado.innerHTML = `
+        <h2 class="resultado-titulo">Resultado da Simulação</h2>
+        <div class="card">
+        <h3>Produção total</h3>
+        <p><strong>Produção diária:</strong> ${producaoDiaria.toFixed(2)} litros</p>
+        <p><strong>Produção mensal:</strong> ${(producaoDiaria * 30).toFixed(2)} litros</p>
+        <p><strong>Produção anual:</strong> ${(producaoDiaria * 365).toFixed(2)} litros</p>
+        </div>
+
+        <div class="card">
+        <h3>Cenário sem sensor</h3>
+        <p><strong>Percentual de perda:</strong> 30%</p>
+        <p><strong>Perda diária:</strong> ${litrosPerdidosSemDiaFixo.toFixed(2)} litros</p>
+        <p><strong>Prejuízo diário R$:</strong> ${(prejuizoSemDiaFixo.toFixed(2))}</p>
+        <p><strong>Prejuízo mensal R$:</strong> ${(prejuizoSemMesFixo.toFixed(2))}</p>
+        <p><strong>Prejuízo anual R$:</strong> ${(prejuizoSemAnoFixo.toFixed(2))}</p>
+        </div>
+
+        <div class="card">
+        <h3>Cenário com sensor</h3>
+        <p><strong>Percentual de perda:</strong> 5%</p>
+        <p><strong>Perda diária:</strong> ${litrosPerdidosComDia.toFixed(2)} litros</p>
+        <p><strong>Prejuízo diário R$:</strong> ${(prejuizoComDia.toFixed(2))}</p>
+        <p><strong>Prejuízo mensal R$:</strong> ${(prejuizoComMes.toFixed(2))}</p>
+        <p><strong>Prejuízo anual R$:</strong> ${(prejuizoComAno.toFixed(2))}</p>
+        </div>
+
+        <div class="card destaque">
+        <h3>Economia gerada com sensor</h3>
+        <p><strong>Litros recuperados por dia:</strong> ${litrosRecuperadosDiaFixo.toFixed(2)} litros</p>
+        <p><strong>Litros recuperados por mês:</strong> ${litrosRecuperadosMesFixo.toFixed(2)} litros</p>
+        <p><strong>Litros recuperados por ano:</strong> ${litrosRecuperadosAnoFixo.toFixed(2)} litros</p>
+        <p><strong>Economia por dia R$:</strong> ${(economiaDiaFixo.toFixed(2))}</p>
+        <p><strong>Economia por mês R$:</strong> ${(economiaMesFixo.toFixed(2))}</p>
+        <p><strong>Economia por ano R$:</strong> ${(economiaAnoFixo.toFixed(2))}</p>
+        </div>`;    
+    } 
+    else {
+        resultado.innerHTML = `
+        <h2 class="resultado-titulo">Resultado da Simulação</h2>
+        <div class="card">
+        <h3>Produção total</h3>
+        <p><strong>Produção diária:</strong> ${producaoDiaria.toFixed(2)} litros</p>
+        <p><strong>Produção mensal:</strong> ${(producaoDiaria * 30).toFixed(2)} litros</p>
+        <p><strong>Produção anual:</strong> ${(producaoDiaria * 365).toFixed(2)} litros</p>
+        </div>
+
+        <div class="card">
+        <h3>Cenário sem sensor</h3>
+        <p><strong>Percentual de perda:</strong> ${perdaSemSensor.toFixed(2)}%</p>
+        <p><strong>Perda diária:</strong> ${litrosPerdidosSemDia.toFixed(2)} litros</p>
+        <p><strong>Prejuízo diário R$:</strong> ${(prejuizoSemDia.toFixed(2))}</p>
+        <p><strong>Prejuízo mensal R$:</strong> ${(prejuizoSemMes.toFixed(2))}</p>
+        <p><strong>Prejuízo anual R$:</strong> ${(prejuizoSemAno.toFixed(2))}</p>
+        </div>
+
+        <div class="card">
+        <h3>Cenário com sensor</h3>
+        <p><strong>Percentual de perda:</strong> 5%</p>
+        <p><strong>Perda diária:</strong> ${litrosPerdidosComDia.toFixed(2)} litros</p>
+        <p><strong>Prejuízo diário R$:</strong> ${(prejuizoComDia.toFixed(2))}</p>
+        <p><strong>Prejuízo mensal R$:</strong> ${(prejuizoComMes.toFixed(2))}</p>
+        <p><strong>Prejuízo anual R$:</strong> ${(prejuizoComAno.toFixed(2))}</p>
+        </div>
+
+        <div class="card destaque">
+        <h3>Economia gerada com sensor</h3>
+        <p><strong>Litros recuperados por dia:</strong> ${litrosRecuperadosDia.toFixed(2)} litros</p>
+        <p><strong>Litros recuperados por mês:</strong> ${litrosRecuperadosMes.toFixed(2)} litros</p>
+        <p><strong>Litros recuperados por ano:</strong> ${litrosRecuperadosAno.toFixed(2)} litros</p>
+        <p><strong>Economia por dia R$:</strong> ${(economiaDia.toFixed(2))}</p>
+        <p><strong>Economia por mês R$:</strong> ${(economiaMes.toFixed(2))}</p>
+        <p><strong>Economia por ano R$:</strong> ${(economiaAno.toFixed(2))}</p>
+        </div>`;
+    };
 }
 
 </script>

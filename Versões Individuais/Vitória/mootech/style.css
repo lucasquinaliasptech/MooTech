@@ -108,7 +108,7 @@ line-height: 1.5;
 margin-bottom: 18px;
 }
 
-.campo label {
+.campo p {
 display: block;
 margin-bottom: 8px;
 font-weight: bold;
@@ -144,11 +144,6 @@ font-weight: bold;
 cursor: pointer;
 transition: 0.3s;
 margin-top: 10px;
-}
-
-button:hover {
-background-color: #ffffff;
-color: #000000;
 }
 
 #resultado {
