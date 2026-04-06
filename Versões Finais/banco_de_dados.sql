@@ -228,7 +228,7 @@ SELECT
     g.nome_galpao AS Galpao,
 
     CASE 
-        WHEN l.umidade_max > 4 THEN 'ALERTA'
+        WHEN l.umidade_max > 55 THEN 'ALERTA'
         ELSE 'NORMAL'
     END AS status_umidade
 
