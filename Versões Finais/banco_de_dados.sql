@@ -15,12 +15,8 @@ senha VARCHAR(30) NOT NULL,
 status TINYINT,
 	CONSTRAINT chk_status_usuario
 		CHECK(status in(0,1))
+	
 );
-
-INSERT INTO usuario (razao_social, nome_ficticio, cnpj, email, telefone, senha, status) VALUES
-('Mootech Tecnologias & Sensores Ltda', 'Mootech', '12345678000101', 'contato@boavida.com', '11987654321', '123456', 1),
-('SPTech Ltda', 'SPTech', '98765432000102', 'sptech@email.com', '11912345678', 'abcdef', 1),
-('Fazenda Leite Nobre LTDA', 'Leite Nobre', '11223344000103', 'leitenobre@email.com', '11999998888', 'senha123', 0);
 
 -- /////////////////////////////////////////////////////////////////////
 
@@ -38,11 +34,6 @@ fk_usuario INT,
 		REFERENCES usuario(id_usuario)
 );
 
-INSERT INTO endereco (cep, logradouro, numero, complemento, estado_sigla, municipio, fk_usuario) VALUES
-('01001000', 'Rua A', 100, 'Galpao 1', 'SP', 'São Paulo', 1),
-('02002000', 'Rua B', 200, 'Galpao 2', 'SP', 'Campinas', 2),
-('03003000', 'Rua C', 300, 'Galpao 3', 'MG', 'Belo Horizonte', 3);
-
 -- /////////////////////////////////////////////////////////////////////
 
 CREATE TABLE IF NOT EXISTS galpao(
@@ -55,11 +46,6 @@ ala CHAR(2),
 		REFERENCES endereco(id_endereco) 
 );
 
-INSERT INTO galpao (id_galpao, fk_endereco, nome_galpao, ala) VALUES
-(1, 1, 'Galpao Principal', 'A1'),
-(2, 2, 'Galpao Secundario', 'B1'),
-(3, 3, 'Galpao Reserva', 'C1');
-
 -- /////////////////////////////////////////////////////////////////////
 
 CREATE TABLE tanque(
@@ -70,11 +56,6 @@ fk_galpao INT,
 		FOREIGN KEY (fk_galpao)
         REFERENCES galpao(id_galpao)
 );
-
-INSERT INTO tanque (capacidade, fk_galpao) VALUES
-(1000.50, 1),
-(2000.00, 2),
-(1500.75, 3);
 
 -- /////////////////////////////////////////////////////////////////////
 
