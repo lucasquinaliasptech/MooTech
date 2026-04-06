@@ -1,5 +1,4 @@
 
-
 CREATE DATABASE mootech;
 USE mootech;
 
@@ -64,7 +63,7 @@ INSERT INTO galpao (id_galpao, fk_endereco, nome_galpao, ala) VALUES
 -- /////////////////////////////////////////////////////////////////////
 
 CREATE TABLE tanque(
-id_taque INT PRIMARY KEY AUTO_INCREMENT,
+id_tanque INT PRIMARY KEY AUTO_INCREMENT,
 capacidade DECIMAL(10,2) NOT NULL,
 fk_galpao INT,
 	CONSTRAINT fkGalpao
@@ -114,3 +113,129 @@ fk_sensor INT,
 
 -- SELECTS
 
+-- Ver usuários e suas informações
+SELECT * FROM usuario;
+
+-- Usuários ativos
+SELECT * FROM usuario
+WHERE status = 1;
+
+-- Sensores inativos
+SELECT * FROM sensor_temperatura_umidade
+WHERE status_sensor = 0;
+
+-- Sensores ativos
+SELECT * FROM sensor_temperatura_umidade
+WHERE status_sensor = 1;
+
+-- Sensores em manutenção
+SELECT * FROM sensor_temperatura_umidade
+WHERE status_sensor = 2;
+
+-- Endereços das empresas
+SELECT e.id_endereco,
+	   concat("CEP: ", cep, ", N°", numero) AS Endereco,
+       u.razao_social AS Razao_Social,
+       u.nome_ficticio AS Nome
+FROM endereco e
+JOIN usuario u ON e.fk_usuario = u.id_usuario;
+
+-- Galpões com endereço e seus respectivos usuários
+SELECT 
+    g.nome_galpao AS Galpão,
+    g.ala AS Alas,
+	CONCAT("CEP: ", e.cep, ", N°", e.numero) AS Endereco,
+    CONCAT(e.municipio," - ", e.estado_sigla) AS Municipio_Estado,
+    u.nome_ficticio AS Nome,
+    u.razao_social AS Razao_Social
+FROM galpao g
+JOIN endereco e ON g.fk_endereco = e.id_endereco
+JOIN usuario u ON e.fk_usuario = u.id_usuario;
+
+-- Informações completas (Leitura, sensor, usuario e endereco)
+SELECT
+-- Sensor
+    s.id_sensor AS Sensores,
+    s.status_sensor AS STATUS,
+-- Leitura 
+    l.id_leitura,
+    l.temperatura_max,
+    l.temperatura_min,
+    l.umidade_max,
+    l.umidade_min,
+    l.historico_registro,
+-- Usuário
+    u.nome_ficticio AS Nome,
+    u.razao_social AS Razao_Social,
+-- Endereço    
+	CONCAT("CEP: ", e.cep, ", N°", e.numero) AS Endereco,
+    CONCAT(e.municipio," - ", e.estado_sigla) AS Municipio_Estado
+    
+FROM leitura_sensor l
+JOIN sensor_temperatura_umidade s 
+    ON l.fk_sensor = s.id_sensor
+JOIN endereco e 
+    ON g.fk_endereco = e.id_endereco
+JOIN usuario u 
+    ON e.fk_usuario = u.id_usuario;
+    
+    -- Para não ficar muito poluido, tem como tirar o endereço
+
+-- Sensores e seus tanques
+SELECT s.id_sensor AS Sensores,
+       s.status_sensor AS Status,
+       t.id_tanque AS Tanques,
+       CONCAT(g.id_galpao,", Ala ", g.ala) AS Localização_Tanque
+FROM sensor_temperatura_umidade s
+JOIN tanque t
+	ON s.fk_tanque = t.id_tanque
+JOIN galpao g
+	ON g.id_galpao = t.fk_galpao;
+
+-- Temperatura alarmante
+SELECT 
+    l.id_leitura AS Leitura,
+    l.temperatura_max,
+    l.temperatura_min,
+    l.historico_registro,
+
+    s.id_sensor AS Sensores,
+    t.id_taque AS Tanques,
+    g.nome_galpao AS Galpao,
+
+    CASE 
+        WHEN l.temperatura_max > 4 THEN 'ALERTA'
+        ELSE 'NORMAL'
+    END AS status_temperatura
+
+FROM leitura_sensor l
+JOIN sensor_temperatura_umidade s 
+    ON l.fk_sensor = s.id_sensor
+JOIN tanque t 
+    ON s.fk_tanque = t.id_taque
+JOIN galpao g 
+    ON t.fk_galpao = g.id_galpao;
+    
+-- Umidade alarmante
+SELECT 
+    l.id_leitura AS Leitura,
+    l.umidade_max,
+    l.umidade_min,
+    l.historico_registro,
+
+    s.id_sensor AS Sensores,
+    t.id_taque AS Tanques,
+    g.nome_galpao AS Galpao,
+
+    CASE 
+        WHEN l.umidade_max > 4 THEN 'ALERTA'
+        ELSE 'NORMAL'
+    END AS status_umidade
+
+FROM leitura_sensor l
+JOIN sensor_temperatura_umidade s 
+    ON l.fk_sensor = s.id_sensor
+JOIN tanque t 
+    ON s.fk_tanque = t.id_taque
+JOIN galpao g 
+    ON t.fk_galpao = g.id_galpao;
