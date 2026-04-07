@@ -7,39 +7,82 @@ USE mootech;
 CREATE TABLE usuario(
 id_usuario INT PRIMARY KEY AUTO_INCREMENT,
 razao_social VARCHAR(50) NOT NULL,
-nome_ficticio VARCHAR(50) NOT NULL,
+nome_fantasia VARCHAR(50) NOT NULL,
 cnpj CHAR(14) NOT NULL UNIQUE,
 email VARCHAR(60) NOT NULL UNIQUE,
-telefone CHAR(11) NOT NULL,
+telefone CHAR(11),
 senha VARCHAR(30) NOT NULL,
-status TINYINT,
+status_usuario TINYINT(1),
 	CONSTRAINT chk_status_usuario
-		CHECK(status in(0,1))
-	
+		CHECK(status_usuario in(0,1))
 );
+
+-- /////////////////////////////////////////////////////////////////////
+
+CREATE TABLE estado(
+id_estado INT PRIMARY KEY AUTO_INCREMENT,
+sigla CHAR(2) NOT NULL UNIQUE,
+nome VARCHAR(50) NOT NULL UNIQUE,
+regiao VARCHAR(15) NOT NULL,
+    CONSTRAINT chk_regiao_status
+        CHECK(regiao in ('Norte', 'Nordeste', 'Centro-Oeste', 'Sudeste', 'Sul'))
+);
+
+INSERT INTO estado (sigla, nome, regiao) VALUES
+	('AC', 'Acre', 'Norte'),
+	('AL', 'Alagoas', 'Nordeste'),
+	('AP', 'Amapá', 'Norte'),
+	('AM', 'Amazonas', 'Norte'),
+	('BA', 'Bahia', 'Nordeste'),
+	('CE', 'Ceará', 'Nordeste'),
+	('DF', 'Distrito Federal', 'Centro-Oeste'),
+	('ES', 'Espírito Santo', 'Sudeste'),
+	('GO', 'Goiás', 'Centro-Oeste'),
+	('MA', 'Maranhão', 'Nordeste'),
+	('MT', 'Mato Grosso', 'Centro-Oeste'),
+	('MS', 'Mato Grosso do Sul', 'Centro-Oeste'),
+	('MG', 'Minas Gerais', 'Sudeste'),
+	('PA', 'Pará', 'Norte'),
+	('PB', 'Paraíba', 'Nordeste'),
+	('PR', 'Paraná', 'Sul'),
+	('PE', 'Pernambuco', 'Nordeste'),
+	('PI', 'Piauí', 'Nordeste'),
+	('RJ', 'Rio de Janeiro', 'Sudeste'),
+	('RN', 'Rio Grande do Norte', 'Nordeste'),
+	('RS', 'Rio Grande do Sul', 'Sul'),
+	('RO', 'Rondônia', 'Norte'),
+	('RR', 'Roraima', 'Norte'),
+	('SC', 'Santa Catarina', 'Sul'),
+	('SP', 'São Paulo', 'Sudeste'),
+	('SE', 'Sergipe', 'Nordeste'),
+	('TO', 'Tocantins', 'Norte')
+;
 
 -- /////////////////////////////////////////////////////////////////////
 
 CREATE TABLE endereco(
 id_endereco INT PRIMARY KEY AUTO_INCREMENT,
 cep CHAR(8) NOT NULL,
-logradouro VARCHAR(100),
-numero INT NOT NULL,
+logradouro VARCHAR(100) NOT NULL,
+numero INT,
 complemento VARCHAR(100),
-estado_sigla CHAR(2),
 municipio VARCHAR(50) NOT NULL,
-fk_usuario INT,
+fk_estado INT NOT NULL,
+fk_usuario INT NOT NULL,
 	CONSTRAINT fkUsuario
 		FOREIGN KEY (fk_usuario)
-		REFERENCES usuario(id_usuario)
+		REFERENCES usuario(id_usuario),
+    CONSTRAINT fkEstado
+        FOREIGN KEY (fk_estado)
+        REFERENCES estado(id_estado)
 );
 
 -- /////////////////////////////////////////////////////////////////////
 
-CREATE TABLE IF NOT EXISTS galpao(
+CREATE TABLE galpao(
 id_galpao INT PRIMARY KEY,
 fk_endereco INT NOT NULL,
-nome_galpao VARCHAR(45) NOT NULL,
+nome_galpao VARCHAR(50) NOT NULL,
 ala CHAR(2),
 	CONSTRAINT fkEndereco
 		FOREIGN KEY (fk_endereco)
@@ -51,7 +94,7 @@ ala CHAR(2),
 CREATE TABLE tanque(
 id_tanque INT PRIMARY KEY AUTO_INCREMENT,
 capacidade DECIMAL(10,2) NOT NULL,
-fk_galpao INT,
+fk_galpao INT NOT NULL,
 	CONSTRAINT fkGalpao
 		FOREIGN KEY (fk_galpao)
         REFERENCES galpao(id_galpao)
@@ -62,8 +105,12 @@ fk_galpao INT,
 CREATE TABLE sensor_temperatura_umidade(
 id_sensor INT PRIMARY KEY AUTO_INCREMENT,
 data_instalacao DATE NOT NULL,
-fk_tanque INT,
-status_sensor TINYINT,
+temperatura_max DECIMAL(10,2) NOT NULL,
+temperatura_min DECIMAL(10,2) NOT NULL,
+umidade_max DECIMAL(10,2) NOT NULL,
+umidade_min DECIMAL(10,2) NOT NULL,
+status_sensor TINYINT(1),
+fk_tanque INT NOT NULL,
 	CONSTRAINT chk_status_sensor
 		CHECK(status_sensor in(0,1,2)),
 	CONSTRAINT fkTanque
@@ -71,24 +118,18 @@ status_sensor TINYINT,
         REFERENCES tanque(id_tanque)
 );
 
-
-
 -- /////////////////////////////////////////////////////////////////////
 
-CREATE TABLE leitura_sensor(
+CREATE TABLE leitura_sensor_temperatura_umidade(
 id_leitura INT PRIMARY KEY AUTO_INCREMENT,
- temperatura_max DECIMAL(10,2) NOT NULL,
-    temperatura_min DECIMAL(10,2) NOT NULL,
-umidade_max DECIMAL(10,2) NOT NULL,
-    umidade_min DECIMAL(10,2) NOT NULL,
-historico_registro DATE DEFAULT CURRENT_TIMESTAMP,
-fk_sensor INT,
+historico_registro DATETIME DEFAULT CURRENT_TIMESTAMP(),
+temperatura DECIMAL(10,2) NOT NULL,
+umidade DECIMAL(10,2) NOT NULL,
+fk_sensor_temperatura_umidade INT NOT NULL,
 	CONSTRAINT fkSensor
 		FOREIGN KEY (fk_sensor)
         REFERENCES sensor_temperatura_umidade(id_sensor)
 );
-
-
 
 -- /////////////////////////////////////////////////////////////////////
 
@@ -99,7 +140,7 @@ SELECT * FROM usuario;
 
 -- Usuários ativos
 SELECT * FROM usuario
-WHERE status = 1;
+WHERE status_usuario = 1;
 
 -- Sensores inativos
 SELECT * FROM sensor_temperatura_umidade
@@ -209,7 +250,7 @@ SELECT
     g.nome_galpao AS Galpao,
 
     CASE 
-        WHEN l.umidade_max > 55 THEN 'ALERTA'
+        WHEN l.umidade_max > 100 THEN 'ALERTA'
         ELSE 'NORMAL'
     END AS status_umidade
 
