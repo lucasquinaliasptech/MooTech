@@ -17,6 +17,11 @@ status_usuario TINYINT(1),
 		CHECK(status_usuario in(0,1))
 );
 
+INSERT INTO usuario (razao_social, nome_fantasia, cnpj, email, telefone, senha, status_usuario) VALUES 
+('Laticinios do Vale LTDA', 'Vale do Leite', '12345678000199', 'contato@valedoleite.com', '11988887777', 'senha123', 1),
+('Agropecuaria Santa Maria LTDA', 'Fazenda Santa Maria', '98765432000188', 'contato@santamaria.com.br', '31977776666', 'leitepuroMG', 1),
+('Cooperativa Regional Sul Leite', 'Sul Leite', '11222333000100', 'logistica@sulleite.coop', '51966665555', 'sul12345', 1);
+
 -- /////////////////////////////////////////////////////////////////////
 
 CREATE TABLE estado(
@@ -77,6 +82,11 @@ fk_usuario INT NOT NULL,
         REFERENCES estado(id_estado)
 );
 
+INSERT INTO endereco (cep, logradouro, numero, complemento, municipio, fk_estado, fk_usuario) VALUES
+('01234000', 'Rodovia das Vacas', 500, 'KM 12', 'São José dos Campos', 25, 1),
+('35000000', 'Estrada Real', 1500, NULL, 'Uberaba', 13, 2),
+('95000000', 'Av. das Cooperativas', 10, 'Hangar 4', 'Passo Fundo', 21, 3);
+
 -- /////////////////////////////////////////////////////////////////////
 
 CREATE TABLE galpao(
@@ -89,6 +99,13 @@ ala CHAR(2),
 		REFERENCES endereco(id_endereco) 
 );
 
+INSERT INTO galpao (id_galpao, fk_endereco, nome_galpao, ala) VALUES 
+(1, 1, 'Galpão de Resfriamento A', 'A1'),
+(2, 1, 'Galpão de Processamento B', 'B2'),
+(3, 2, 'Unidade de Resfriamento Norte', 'N1'),
+(4, 2, 'Setor de Coleta Primária', 'C1'),
+(5, 3, 'Pavilhão de Estocagem Sul', 'S1');
+
 -- /////////////////////////////////////////////////////////////////////
 
 CREATE TABLE tanque(
@@ -99,6 +116,15 @@ fk_galpao INT NOT NULL,
 		FOREIGN KEY (fk_galpao)
         REFERENCES galpao(id_galpao)
 );
+
+INSERT INTO tanque (capacidade, fk_galpao) VALUES 
+(5000.00, 1),
+(10000.00, 1),
+(15000.00, 3),
+(15000.00, 3),
+(8000.00, 4),
+(20000.00, 5),
+(30000.00, 5);
 
 -- /////////////////////////////////////////////////////////////////////
 
@@ -118,6 +144,14 @@ fk_tanque INT NOT NULL,
         REFERENCES tanque(id_tanque)
 );
 
+INSERT INTO sensor_temperatura_umidade (data_instalacao, temperatura_max, temperatura_min, umidade_max, umidade_min, status_sensor, fk_tanque) VALUES
+('2026-01-15', 4.00, 1.00, 80.00, 20.00, 1, 1), 
+('2026-01-20', 4.50, 0.50, 75.00, 15.00, 1, 2), 
+('2026-05-10', 4.00, 0.50, 85.00, 10.00, 1, 3), 
+('2026-05-10', 4.00, 0.50, 85.00, 10.00, 1, 4), 
+('2026-08-20', 3.80, 0.00, 70.00, 20.00, 2, 6), -- (Em manutenção)
+('2026-08-20', 3.80, 0.00, 70.00, 20.00, 1, 7);
+
 -- /////////////////////////////////////////////////////////////////////
 
 CREATE TABLE leitura_sensor_temperatura_umidade(
@@ -127,9 +161,16 @@ temperatura DECIMAL(10,2) NOT NULL,
 umidade DECIMAL(10,2) NOT NULL,
 fk_sensor_temperatura_umidade INT NOT NULL,
 	CONSTRAINT fkSensor
-		FOREIGN KEY (fk_sensor)
+		FOREIGN KEY (fk_sensor_temperatura_umidade)
         REFERENCES sensor_temperatura_umidade(id_sensor)
 );
+
+INSERT INTO leitura_sensor_temperatura_umidade (temperatura, umidade, fk_sensor_temperatura_umidade) VALUES 
+(3.5, 55.2, 1), -- Normal
+(4.2, 58.1, 1), -- Alerta (> 4.0)
+(3.8, 48.5, 3), -- Normal
+(4.5, 50.0, 4), -- Alerta (> 4.0)
+(2.1, 30.0, 6); -- Normal
 
 -- /////////////////////////////////////////////////////////////////////
 
@@ -158,7 +199,7 @@ WHERE status_sensor = 2;
 SELECT e.id_endereco,
 	   concat("CEP: ", cep, ", N°", numero) AS Endereco,
        u.razao_social AS Razao_Social,
-       u.nome_ficticio AS Nome
+       u.nome_fantasia AS Nome
 FROM endereco e
 JOIN usuario u ON e.fk_usuario = u.id_usuario;
 
@@ -167,47 +208,51 @@ SELECT
     g.nome_galpao AS Galpão,
     g.ala AS Alas,
 	CONCAT("CEP: ", e.cep, ", N°", e.numero) AS Endereco,
-    CONCAT(e.municipio," - ", e.estado_sigla) AS Municipio_Estado,
-    u.nome_ficticio AS Nome,
-    u.razao_social AS Razao_Social
+    CONCAT(e.municipio," - ", es.sigla) AS Municipio,
+    u.nome_fantasia AS Nome,
+    u.razao_social AS "Razão Social"
 FROM galpao g
 JOIN endereco e ON g.fk_endereco = e.id_endereco
-JOIN usuario u ON e.fk_usuario = u.id_usuario;
+JOIN usuario u ON e.fk_usuario = u.id_usuario
+JOIN estado es ON e.fk_estado = es.id_estado;
 
 -- Informações completas (Leitura, sensor, usuario e endereco)
 SELECT
--- Sensor
-    s.id_sensor AS Sensores,
-    s.status_sensor AS STATUS,
 -- Leitura 
-    l.id_leitura,
-    l.temperatura_max,
-    l.temperatura_min,
-    l.umidade_max,
-    l.umidade_min,
-    l.historico_registro,
+    l.temperatura "Temperatura Atual",
+    l.umidade "Umidade Atual",
+    l.historico_registro "Último Registro",
+        CASE
+		WHEN s.status_sensor = 1 THEN "Ativo"
+        ELSE "Inativo"
+	END AS "Status do Sensor",
 -- Usuário
-    u.nome_ficticio AS Nome,
-    u.razao_social AS Razao_Social,
+    u.nome_fantasia AS Nome,
+    u.razao_social AS "Razão Social",
 -- Endereço    
-	CONCAT("CEP: ", e.cep, ", N°", e.numero) AS Endereco,
-    CONCAT(e.municipio," - ", e.estado_sigla) AS Municipio_Estado
+	CONCAT("CEP: ", e.cep, ", N°", e.numero) AS "Endereço",
+    CONCAT(e.municipio," - ", es.sigla) AS Estado
     
-FROM leitura_sensor l
-JOIN sensor_temperatura_umidade s 
-    ON l.fk_sensor = s.id_sensor
-JOIN endereco e 
-    ON g.fk_endereco = e.id_endereco
-JOIN usuario u 
-    ON e.fk_usuario = u.id_usuario;
+FROM leitura_sensor_temperatura_umidade l
+JOIN sensor_temperatura_umidade s ON l.fk_sensor_temperatura_umidade = s.id_sensor
+JOIN tanque t ON s.fk_tanque = t.id_tanque
+JOIN galpao g ON t.fk_galpao = g.id_galpao
+JOIN endereco e ON g.fk_endereco = e.id_endereco
+JOIN usuario u ON e.fk_usuario = u.id_usuario
+JOIN estado es ON e.fk_estado = es.id_estado;
     
     -- Para não ficar muito poluido, tem como tirar o endereço
 
 -- Sensores e seus tanques
-SELECT s.id_sensor AS Sensores,
-       s.status_sensor AS Status,
-       t.id_tanque AS Tanques,
-       CONCAT(g.id_galpao,", Ala ", g.ala) AS Localização_Tanque
+SELECT
+	s.id_sensor AS "ID do Sensor",
+	CASE
+		WHEN s.status_sensor = 1 THEN "Ativo"
+        ELSE "Inativo"
+	END AS "Status do Sensor",
+	t.id_tanque AS Tanques,
+	CONCAT(g.id_galpao,", Ala ", g.ala) AS Localização_Tanque
+    
 FROM sensor_temperatura_umidade s
 JOIN tanque t
 	ON s.fk_tanque = t.id_tanque
@@ -217,47 +262,44 @@ JOIN galpao g
 -- Temperatura alarmante
 SELECT 
     l.id_leitura AS Leitura,
-    l.temperatura_max,
-    l.temperatura_min,
+    l.temperatura,
     l.historico_registro,
 
     s.id_sensor AS Sensores,
-    t.id_taque AS Tanques,
+    t.id_tanque AS Tanques,
     g.nome_galpao AS Galpao,
 
     CASE 
-        WHEN l.temperatura_max > 4 THEN 'ALERTA'
+        WHEN l.temperatura > 4 THEN 'ALERTA'
         ELSE 'NORMAL'
     END AS status_temperatura
 
-FROM leitura_sensor l
+FROM leitura_sensor_temperatura_umidade l
 JOIN sensor_temperatura_umidade s 
-    ON l.fk_sensor = s.id_sensor
+    ON l.fk_sensor_temperatura_umidade = s.id_sensor
 JOIN tanque t 
-    ON s.fk_tanque = t.id_taque
+    ON s.fk_tanque = t.id_tanque
 JOIN galpao g 
     ON t.fk_galpao = g.id_galpao;
     
 -- Umidade alarmante
-SELECT 
-    l.id_leitura AS Leitura,
-    l.umidade_max,
-    l.umidade_min,
+SELECT
+    l.umidade,
     l.historico_registro,
 
     s.id_sensor AS Sensores,
-    t.id_taque AS Tanques,
+    t.id_tanque AS Tanques,
     g.nome_galpao AS Galpao,
 
     CASE 
-        WHEN l.umidade_max > 100 THEN 'ALERTA'
+        WHEN l.umidade > 100 THEN 'ALERTA'
         ELSE 'NORMAL'
     END AS status_umidade
 
-FROM leitura_sensor l
+FROM leitura_sensor_temperatura_umidade l
 JOIN sensor_temperatura_umidade s 
-    ON l.fk_sensor = s.id_sensor
+    ON l.fk_sensor_temperatura_umidade = s.id_sensor
 JOIN tanque t 
-    ON s.fk_tanque = t.id_taque
+    ON s.fk_tanque = t.id_tanque
 JOIN galpao g 
     ON t.fk_galpao = g.id_galpao;
