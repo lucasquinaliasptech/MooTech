@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MooTech Página Inicial</title>
+
+  <script src="./js/sessao.js"></script>
+
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/estilo.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+
+</head>
+
+<body>
+  <header>
+
+    <div class="logo_titulo">
+      <img id="logo" src="./assets/logo.png">
+      <h1 class="titulo">MooTech</h1>
+    </div>
+
+    <ul class="navbar">
+      <li class="agora">
+        <a class="agora" href="index.html">Início</a>
+      </li>
+
+      <li>
+        <a href="#">Solução</a>
+      </li>
+
+      <li>
+        <a href="#">Calculadora</a>
+      </li>
+
+      <li>
+        <a href="#">Sobre nós</a>
+      </li>
+    </ul>
+
+    <a href="login.html"><button class="botao_area">Área do Cliente</button></a>
+
+  </header>
+
+  <!-- DIV DE BANNER E SOCIAL -->
+  <div class="tudo">
+
+    <!-- BANNER  -->
+    <div class="banner">
+      
+      <div class="container_banner">
+        <h1>MooTech</h1>
+        <p>Monitoramento em tempo real da <span class='azul'>temperatura</span> e da <span class="azul">umidade</span>
+          nos tanques de armazenamento de leite</p>
+        <button class="button_rosa">Saiba Mais</button>
+      </div>
+      
+      <img id='vacabanner' src="./assets/vaquinhas.webp">
+    
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="social">
+      <div class="container_social">
+
+        <img id='tanque' src="./assets/tanques.jpeg">
+
+        <div id="tanque_titulo">
+          <h3 class="titulo_tanque">Controle de temperatura e umidade <span id="spans">eficiente e barato!</span></h3>
+          <p>
+            O sistema de monitoramento da MooTech realiza o monitoramento em tempo real da temperatura e da umidade nos
+            tanques de armazenamento de leite, garantindo a melhor qualidade do leite pós-ordenha...
+          </p>
+        </div>  
+      
+      </div>
+      
+      <div class="boxes"> 
+        <div class="caracteristicas">
+            <div class="caracteristicas_titulo">
+            
+              <div class="icone_box">
+                <img class='icones' src="./assets/sensor.png">
+              </div>
+
+              <h3 class="titulo_box">Sensor</h3>
+          
+            </div>
+          
+            <p>
+              Sensor responsável pela captura de dados em tempo real, instalado nos tanques
+            </p>
+        </div>
+          
+
+        <div class="caracteristicas">
+    
+          <div class="caracteristicas_titulo">
+            <div class="icone_box">
+              <img class='icones' src="./assets/sistema.png">
+            </div>             
+
+            <h3 class="titulo_box">Sistema</h3>
+            
+          </div>      
+            
+          <p>
+            Sistema online que recebe os dados do sensor e oferece insights importantes
+          </p>
+          
+        </div>
+
+        <div class="caracteristicas">
+          <div class="caracteristicas_titulo">
+            <div class="icone_box">
+              <img class='icones' src="./assets/sininho.png">
+            </div>         
+
+            <h3 class="titulo_box">Alerta</h3>
+        
+          </div>  
+      
+          <p>
+            Ao detectar anormalidades, é enviado um alerta ao produtor
+          </p>
+
+        </div>      
+      </div>
+    </div>        
+       
+  </div>
+
+    <!-- CALCULADORA -->
+    <div class="calculadora">
+        <div class="titulo_calculadora">
+          <h3>Calculadora <span id='spans'> Financeira</span></h3>
+          <p>
+            Esta calculadora permite que o produtor de leite analise o dinheiro que ele deixa de ganhar pela 
+          </p>
+          <p>
+            falta de controle de temperatura e umidade em seus tanques de armazenamento.
+          </p>
+        </div>
+
+        <div class="inputs_calculadora_container">
+
+          <div class="inputs_calculadora">
+            <div class="campos_calculadora">
+              <p>Quantidade de tanques de armazenamento de leite</p>
+              <input id="gado" placeholder="Ex: 50">
+            </div>
+
+            <div class="campos_calculadora">
+              <p>Capacidade média dos tanques de armazenamento de leite</p>
+              <input id="capacidade_tanque" placeholder="Ex: 1000">
+            </div>
+
+            <div class="campos_calculadora">
+              <p>Valor do litro de leite (R$)</p>
+              <input id="valor_leite" step="0.01" placeholder="Ex: 2.80">
+            </div>
+
+            <div class="campos_calculadora">
+              <p>Perda sem sensor (%)</p>
+              <input id="perda_sem_sensor" value="10" placeholder="Ex: 10">
+            </div>
+
+            <button class="button_rosa" onclick="calcular()">Calcular</button>
+
+          </div> 
+
+          <div class="resultados_calculadora">
+            <h3>Resultado</h3>
+            <p>
+              Capacidade Total:
+            </p>
+            <span class="resultados" id="msg_capacidade">0 Litro(s)</span>
+            <p>
+              Possível perda diária:
+            </p>
+            <span class="resultados" id="msg_diaria">R$0,00</span>
+            <p>
+              Possível perda mensal:
+            </p>
+            <span class="resultados" id="msg_mensal">R$0,00</span>
+            <p>
+              Possível perda anual:
+            </p>
+            <span class="resultados" id="msg_anual">R$0,00</span>
+            <p>
+              Economia anual com a MooTech:
+            </p>
+            <span class="resultados" id="msg_economia">R$0,00</span>
+          </div>
+           
+        </div>
+    </div>
+
+    <!-- SOBRE NOS -->
+    <div class="sobrenos">
+        
+      <img id='vaquinhas' src="./assets/vaquinhaSobrenos.png">
+        
+      <div class="container_sobrenos">
+          <h3>Sobre Nós</h3>
+          
+          <p>
+            O sistema de monitoramento de temperatura e umidade MooTech nasceu em 2026 com o objetivo de revolucionar o
+            mercado de produção rural de leite. 
+          </p>
+          <p>  
+            Utilizando a solução, o cliente tem acesso a dashboards de fácil
+            entendimento, bem como insights sobre sua produção de leite, garantindo qualidade e segurança.
+          </p>
+      
+      </div>
+    
+    </div>
+
+    <!-- CONTATO -->
+    <div class="footer_background">
+      <div class="contato_nos">
+
+        <div class="titulo_logo_contato">
+          <img id="logoContato" src="./assets/logo.png">
+          <h2>MooTech</h2>
+        </div>
+
+        <div class="container_contato">
+
+          <img id='bezerrinho' src="./assets/vaquinhasContato.png"> 
+
+          <div class="inputs_contato">
+            <h3>Contato</h3>
+
+            <div class="campos_pag_incial">
+              <p>E-mail:</p>
+              <input class="contato_ipt" id="input_email" placeholder="meuemail@provedor.com">
+            </div>
+
+            <div class="campos_pag_incial">
+              <p>Telefone:</p>
+              <input class="contato_ipt" id="input_telefone" placeholder="(xx)xxxxx-xxxx">
+            </div>
+
+            <div class="campos_pag_incial">
+              <p>Mensagem:</p>
+              <input class="contato_ipt" id="input_mensagem" placeholder="Mensagem para contato. Descreva sua empresa.">
+            </div>
+          
+            <button class="button_rosa">Enviar</button>
+
+          </div>
+        
+        </div>
+
+      </div>
+
+      <!-- FOOTER -->
+      <div class="footer">
+        <div class="container_footer">
+          
+          <div class="footer_contato">
+            <p>
+              E-mail de Contato: 
+              <span class='footer_rosa'>contato@mootech.com.br</span>
+            </p>
+
+            <p>
+              Localização: 
+              <span class='footer_rosa'>Rua Haddock Lobo, 595 - São Paulo, SP</span>
+            </p>
+
+            <p>
+              Horário de Atendimento: 
+              <span class='footer_rosa'>Segunda a Sexta das 09h15 às 15h15</span> 
+            </p>
+          </div>
+
+          <div class="redes_sociais">
+            <img src="./assets/linkedin.png">
+            <img src="./assets/instagram.png">
+            <a href="https://github.com/lucasquinaliasptech/MooTech.git">
+              <img class="github" src="./assets/github.png">
+            </a>
+          </div>
+
+          <div class="titulo_footer">
+
+            <h1 id="footer_titulo">MooTech</h1>
+            <p id="slogan">
+              Garantindo a segurança alimentar e a lucratividade do produtor rural através da IoT
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+</body>
+
+</html>
+
+<script>
+  function calcular() {
+
+    let tanque = Number(gado.value);
+
+    let capacidade = Number(capacidade_tanque.value) // CAPACIDADE DOS TANQUES
+
+    let producaoDiaria = tanque * capacidade; // QUANTIDADE DE LEITE
+
+    let valorLeite = Number(valor_leite.value); // VALOR LEITE
+
+    let perdaSemSensor = Number(perda_sem_sensor.value); // PREJUIZO SEM SENSOR
+    let porcentagemFixa = 0.3; // CASO N SEJA FALADO A % DE PERDA
+
+    let perdaComSensor = 0.05; // PERDA COM O SENSOR  
+
+    // PREJUIZO SEM SENSOR (PORCENTAGEM INFORMADA E FIXA)
+    let litrosPerdidosSemDia = producaoDiaria * (perdaSemSensor / 100); // PERDA DIARIA SEM SENSOR
+    let litrosPerdidosSemDiaFixo = producaoDiaria * porcentagemFixa; // PERDA DIARIA SEM SENSOR FIXA
+
+    let prejuizoSemDia = litrosPerdidosSemDia * valorLeite; // PERDA EM VALOR DIARIO
+    let prejuizoSemDiaFixo = litrosPerdidosSemDiaFixo * valorLeite; // PERDA EM VALOR DIARIO FIXO
+
+    let prejuizoSemMes = prejuizoSemDia * 30; // PERDA EM VALOR MENSAL 
+    let prejuizoSemMesFixo = prejuizoSemDiaFixo * 30; // PERDA EM VALOR MENSAL FIXO
+
+    let prejuizoSemAno = prejuizoSemDia * 365; // PERDA EM VALOR ANUAL
+    let prejuizoSemAnoFixo = prejuizoSemDiaFixo * 365; // PERDA EM VALOR ANUAL FIXO
+
+    // PREJUIZO COM SENSOR
+    let litrosPerdidosComDia = producaoDiaria * perdaComSensor; // PERDA DIARIA COM SENSOR
+    let prejuizoComDia = litrosPerdidosComDia * valorLeite; // PERDA EM VALOR DIARIA COM SENSOR
+    let prejuizoComAno = prejuizoComDia * 365; // PERDA EM VALOR ANUAL COM SENSOR
+
+    // PORCENTAGEM FIXA
+    let economiaAnoFixo = prejuizoSemAnoFixo - prejuizoComAno;
+
+    // PORCENTAGEM INFORMADA
+    let economiaAno = prejuizoSemAno - prejuizoComAno;
+
+
+    if (tanque <= 0 || capacidade <= 0 || valorLeite <= 0 || perdaSemSensor > 100) {
+      alert('Preencha todos os campos com valores válidos.')
+    }
+
+    if (perdaSemSensor == ""){
+      msg_capacidade.innerHTML = `${producaoDiaria} Litro(s)`
+      msg_diaria.innerHTML = `R$${prejuizoSemDiaFixo.toFixed(2)}`
+      msg_mensal.innerHTML = `R$${prejuizoSemMesFixo.toFixed(2)}`
+      msg_anual.innerHTML = `R$${prejuizoSemAnoFixo.toFixed(2)}`
+      msg_economia.innerHTML = `R$${economiaAnoFixo.toFixed(2)}`
+    } else {
+      msg_capacidade.innerHTML = `${producaoDiaria} Litro(s)`
+      msg_diaria.innerHTML = `R$${prejuizoSemDia.toFixed(2)}`
+      msg_mensal.innerHTML = `R$${prejuizoSemMes.toFixed(2)}`
+      msg_anual.innerHTML = `R$${prejuizoSemAno.toFixed(2)}`
+      msg_economia.innerHTML = `R$${economiaAno.toFixed(2)}`
+    }
+  }
+</script>
