@@ -2,228 +2,264 @@
 <html lang="pt-br">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>MooTech Cadastro</title>
+<title>MooTech Cadastro</title>
 
-  <script src="./js/sessao.js"></script>
+<script src="./js/sessao.js"></script>
 
-  <link rel="stylesheet" href="./css/reset.css">
-  <link rel="stylesheet" href="./css/estilo.css" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
+<link rel="stylesheet" href="./css/reset.css">
+<link rel="stylesheet" href="./css/estilo.css" />
+<link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
 
-<body class="body_login" onload="listar()">
-  <!--header inicio-->
-  <header>
+<body class="body_login" >
+<!--header inicio-->
+<header>
 
-    <div class="logo_titulo">
-      <img id="logo" src="./assets/logo.png">
-      <h1 class="titulo">MooTech</h1>
-    </div>
+<div class="logo_titulo">
+<img id="logo" src="./assets/logo.png">
+<h1 class="titulo">MooTech</h1>
+</div>
 
-    <ul class="navbar">
-      <li class="agora">
-        <a class="agora" href="index.html">Início</a>
-      </li>
+<ul class="navbar">
+<li >
+<a href="index.html">Início</a>
+</li>
 
-      <li>
-        <a href="#">Solução</a>
-      </li>
+<li>
+<a href="#">Solução</a>
+</li>
 
-      <li>
-        <a href="#">Calculadora</a>
-      </li>
+<li>
+<a href="#">Calculadora</a>
+</li>
 
-      <li>
-        <a href="#">Sobre nós</a>
-      </li>
-    </ul>
+<li>
+<a href="#">Sobre nós</a>
+</li>
+</ul>
 
-    <a href="login.html"><button class="botao_area">Área do Cliente</button></a>
+<a href="login.html"><button class="botao_area">Área do Cliente</button></a>
 
-  </header>
-  <!--header fim-->
+</header>
+<!--header fim-->
 
-  <div class="login">
-    <div class="alerta_erro">
-      <div class="card_erro" id="cardErro">
-        <span id="mensagem_erro"></span>
-      </div>
-    </div>
-    <div class="container">
-      <div class="card card-cadastro">
-        <img src="assets/vacaCadastro.png" class="img-cadastro">
-        <div class="formulario-container">
-          <!--
-                         Para inserir mais um campo, copie uma das inputs abaixo.
-                         Assim que inserir vá para o script abaixo.
-                     -->
-           <div class="formulario">
-          <div class="campo">
-          <div class="campo">
-           
-          <span>Razão Social:</span>
-            <input id="razao_social_input" type="text" placeholder="Ex: MooTech Soluções Inteligentes LTDA" />
-          </div>
-            
-          <div class="campo">
-            <span>Nome fantasia:</span>
-            <input id="nome_fantasia_input" type="text" placeholder="Ex: MooTech" />
-          </div>
+<div class="login">
+<div class="alerta_erro">
+<div class="card_erro" id="cardErro">
+<span id="mensagem_erro"></span>
+</div>
+</div>
+<div class="container">
+<div class="card card-cadastro">
+<img src="assets/vacaCadastro.png" class="img-cadastro">
+<div class="formulario-container">
+<div class="campo">
+<h1>Cadastro</h1>
+</div>
+<!--
+Para inserir mais um campo, copie uma das inputs abaixo.
+Assim que inserir vá para o script abaixo.
+-->
+<div class="formulario">
+<div class="coluna-campos">
+<div class="campo">
+<span>Razão Social:</span>
+<input id="razao_social_input" type="text" placeholder="Ex: MooTech Soluções LTDA" />
+</div>
+<div class="campo">
+<span>Nome fantasia:</span>
+<input id="nome_fantasia_input" type="text" placeholder="Ex: MooTech" />
+</div>
+<div class="campo">
+<span>CNPJ:</span>
+<input id="cnpj_input" type="text" placeholder="xx.xxx.xxx/xxxx-xx" />
+</div>
+<div class="campo">
+<span>E-mail:</span>
+<input id="email_input" type="text" placeholder="meuemail@provedor.com" />
+</div>
+<div class="campo">
+<span>Telefone:</span>
+<input id="telefone_input" type="text" placeholder="(xx)xxxxx-xxxx" />
+</div>
+</div>
 
-          <div class="campo">
-            <span>CNPJ:</span>
-            <input id="cnpj_input" type="text" placeholder="xx.xxx.xxx/xxxx-xx." />
-          </div>
-          
-          <div class="campo">
-            <span>E-mail:</span>
-            <input id="email_input" type="text" placeholder="meuemail@provedor.com" />
-          </div>
-          <div class="campo">
-            <span>Telefone:</span>
-            <input id="confirmacao_senha_input" type="password" placeholder="******" />
-          </div>
+<div class="coluna-senhas">
 
-          <div class="campo">
-            <span>Senha:</span>
-            <input id="senha_input" type="password" placeholder="******" />
-          </div>
-          <div class="campo">
-            <span>Confirmação da Senha:</span>
-            <input id="confirmacao_senha_input" type="password" placeholder="******" />
-          </div>
+<div class="campo">
+<span>Senha:</span>
+<input id="senha_input" type="password" placeholder="******" oninput="validarSenha()" />
+</div>
 
-          
-          <button class="button_rosa" id='botao_cadastro' onclick="cadastrar()">Cadastrar</button>
-        </div>
-        </div>
-        
+<div class="campo">
+<div id="lista_requisitos" class="lista-requisitos">
+<p id="req_tamanho" class="item-cinza">No mínimo 8 caracteres</p>
+<p id="req_maiuscula" class="item-cinza">Pelo menos 1 letra maiúscula</p>
+<p id="req_minuscula" class="item-cinza">Pelo menos 1 letra minúscula</p>
+<p id="req_numero" class="item-cinza">Pelo menos 1 número</p>
+</div>
+</div>
 
-        <div id="div_erros_login"></div>
-      </div>
-    </div>
-  </div>
+<div class="campo">
+<span>Confirmação da Senha:</span>
+<input id="confirmacao_senha_input" type="password" placeholder="******" />
+</div>
 
- 
+
+<button class="button_rosa" id='botao_cadastro' onclick="cadastrar()">Cadastrar</button>
+</div>
+</div>
+
+
+<div id="div_erros_login"></div>
+</div>
+</div>
+</div>
+
+
 </body>
 
 </html>
 
 <script>
 
-  // Array para armazenar empresas cadastradas para validação de código de ativação 
-  let listaEmpresasCadastradas = [];
 
-  function cadastrar() {
-    // aguardar();
+function validarSenha() {
+var senha = senha_input.value;
 
-    //Recupere o valor da nova input pelo nome do id
-    // Agora vá para o método fetch logo abaixo
-    var nomeVar = razao_social_input.value;
-    var emailVar = email_input.value;
-    var senhaVar = senha_input.value;
-    var confirmacaoSenhaVar = confirmacao_senha_input.value;
-    var codigoVar = codigo_input.value;
-    var idEmpresaVincular
+var temOito = senha.length >= 8;
+var temMaiuscula = false;
+var temMinuscula = false;
+var temNumero = false;
 
-    // Verificando se há algum campo em branco
-    if (
-      nomeVar == "" ||
-      emailVar == "" ||
-      senhaVar == "" ||
-      confirmacaoSenhaVar == "" ||
-      codigoVar == ""
-    ) {
-      cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
+for (var i = 0; i < senha.length; i++) {
+var c = senha[i];
+if (c >= 'A' && c <= 'Z') temMaiuscula = true;
+else if (c >= 'a' && c <= 'z') temMinuscula = true;
+else if (c >= '0' && c <= '9') temNumero = true;
+}
 
-      finalizarAguardar();
-      return false;
-    } else {
-      setInterval(sumirMensagem, 5000);
-    }
+function mudarCor(elemento, condicao) {
+if (senha.length == 0) elemento.className = "item-cinza";
+else if (condicao) elemento.className = "item-valido";
+else elemento.className = "item-invalido";
+}
 
-    // Verificando se o código de ativação é de alguma empresa cadastrada
-    for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
-      if (listaEmpresasCadastradas[i].codigo_ativacao == codigoVar) {
-        idEmpresaVincular = listaEmpresasCadastradas[i].id
-        console.log("Código de ativação válido.");
-        break;
-      } else {
-        cardErro.style.display = "block";
-        mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
-        finalizarAguardar();
-      }
-    }
+mudarCor(req_tamanho, temOito);
+mudarCor(req_maiuscula, temMaiuscula);
+mudarCor(req_minuscula, temMinuscula);
+mudarCor(req_numero, temNumero);
 
-    // Enviando o valor da nova input
-    fetch("/usuarios/cadastrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        // Agora vá para o arquivo routes/usuario.js
-        nomeServer: nomeVar,
-        emailServer: emailVar,
-        senhaServer: senhaVar,
-        idEmpresaVincularServer: idEmpresaVincular
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
+return temOito && temMaiuscula && temMinuscula && temNumero;
+}
 
-        if (resposta.ok) {
-          cardErro.style.display = "block";
+function cadastrar() {
 
-          mensagem_erro.innerHTML =
-            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
-          setTimeout(() => {
-            window.location = "login.html";
-          }, "2000");
+//Recupere o valor da nova input pelo nome do id
+// Agora vá para o método fetch logo abaixo
+var nomeVar = razao_social_input.value;
+var nomeFantasiaVar = nome_fantasia_input.value;
+var cnpjVar = cnpj_input.value;
+var emailVar = email_input.value;
+var telefoneVar = telefone_input.value;
+var senhaVar = senha_input.value;
+var confirmacaoSenhaVar = confirmacao_senha_input.value;
 
-          limparFormulario();
-          finalizarAguardar();
-        } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
-        }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        finalizarAguardar();
-      });
+// Verificando se há algum campo em branco
+if (
+nomeVar == "" ||
+nomeFantasiaVar == "" ||
+cnpjVar == "" ||
+emailVar == "" ||
+senhaVar == "" ||
+confirmacaoSenhaVar == ""
+) {
+cardErro.style.display = "block";
+mensagem_erro.innerHTML =
+"(Preencha todos os campos)";
+finalizarAguardar();
+return false;
+} else {
+setInterval(sumirMensagem, 5000);
+}
 
-    return false;
-  }
+let temArroba = emailVar.indexOf('@');
+let temPonto = emailVar.lastIndexOf('.');
+// Verificação email
 
-  // Listando empresas cadastradas 
-  function listar() {
-    fetch("/empresas/listar", {
-      method: "GET",
-    })
-      .then(function (resposta) {
-        resposta.json().then((empresas) => {
-          empresas.forEach((empresa) => {
-            listaEmpresasCadastradas.push(empresa);
+if (temArroba <= 0 || temPonto <= temArroba + 1 || temPonto >= emailVar.length - 1) {
+cardErro.style.display = "block";
+mensagem_erro.innerHTML = "O e-mail digitado é inválido.";
+return false;
+}
 
-            console.log("listaEmpresasCadastradas")
-            console.log(listaEmpresasCadastradas[0].codigo_ativacao)
-          });
-        });
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
-  }
 
-  function sumirMensagem() {
-    cardErro.style.display = "none";
-  }
+if (validarSenha() == false) {
+cardErro.style.display = "block";
+mensagem_erro.innerHTML = "A senha não cumpre os requisitos.";
+return false;
+}
+
+if (senhaVar != confirmacaoSenhaVar) {
+cardErro.style.display = "block";
+mensagem_erro.innerHTML = "As senhas não são iguais";
+return false;
+}
+
+// Enviando o valor da nova input
+fetch("/usuarios/cadastrar", {
+method: "POST",
+headers: {
+"Content-Type": "application/json",
+},
+body: JSON.stringify({
+// crie um atributo que recebe o valor recuperado aqui
+// Agora vá para o arquivo routes/usuario.js
+nomeServer: nomeVar,
+nomeFantasiaServer: nomeFantasiaVar,
+cnpjServer: cnpjVar,
+emailServer: emailVar,
+telefoneServer: telefoneVar,
+senhaServer: senhaVar,
+confirmarSenhaServer: confirmacaoSenhaVar
+
+}),
+})
+.then(function (resposta) {
+console.log("resposta: ", resposta);
+
+if (resposta.ok) {
+cardErro.style.display = "block";
+
+mensagem_erro.innerHTML =
+"Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+setTimeout(() => {
+window.location = "login.html";
+}, "2000");
+
+limparFormulario();
+finalizarAguardar();
+} else {
+throw "Houve um erro ao tentar realizar o cadastro!";
+}
+})
+.catch(function (resposta) {
+console.log(`#ERRO: ${resposta}`);
+finalizarAguardar();
+});
+
+return false;
+}
+
+
+
+function sumirMensagem() {
+cardErro.style.display = "none"; 
+}
 </script>
