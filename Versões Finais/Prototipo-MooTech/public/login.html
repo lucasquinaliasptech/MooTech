@@ -2,156 +2,156 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MooTech Login</title>
+<title>MooTech Login</title>
 
-    <script src="./js/sessao.js"></script>
+<script src="./js/sessao.js"></script>
 
-    <link rel="stylesheet" href="./css/reset.css">
-    <link rel="stylesheet" href="./css/estilo.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="./css/reset.css">
+<link rel="stylesheet" href="./css/estilo.css">
+<link rel="preconnect" href="https://fonts.gstatic.com">
 </head>
 
 <body class="body_login">
 
-        <!--Header-->
-  <header>
+<!--Header-->
+<header>
 
-    <div class="logo_titulo">
-      <img id="logo" src="./assets/logo.png">
-      <h1 class="titulo">MooTech</h1>
-    </div>
+<div class="logo_titulo">
+<img id="logo" src="./assets/logo.png">
+<h1 class="titulo">MooTech</h1>
+</div>
 
-    <ul class="navbar">
-      <li>
-        <a href="index.html">Início</a>
-      </li>
+<ul class="navbar">
+<li>
+<a href="index.html">Início</a>
+</li>
 
-      <li>
-        <a href="index.html">Solução</a>
-      </li>
+<li>
+<a href="index.html">Solução</a>
+</li>
 
-      <li>
-        <a href="index.html">Calculadora</a>
-      </li>
+<li>
+<a href="index.html">Calculadora</a>
+</li>
 
-      <li>
-        <a href="index.html">Sobre nós</a>
-      </li>
-    </ul>
+<li>
+<a href="index.html">Sobre nós</a>
+</li>
+</ul>
 
-    <a href="#"><button class="botao_area">Área do Cliente</button></a>
+<a href="#"><button class="botao_area">Área do Cliente</button></a>
 
-  </header>
+</header>
 
-    <div class="login">
-        <div class="container">
-            <div class="alerta_erro">
-                <div class="card_erro" id="cardErro">
-                    <span id="mensagem_erro"></span>
-                </div>
-            </div>
+<div class="login">
+<div class="container">
+<div class="alerta_erro">
+<div class="card_erro" id="cardErro">
+<span id="mensagem_erro"></span>
+</div>
+</div>
 
-            <div class="card card-login">
-                <img src="assets/vacaLogin.png" class="img-login">
+<div class="card card-login">
+<img src="assets/vacaLogin.png" class="img-login">
 
-                <div class="formulario-container">
-                    <h2>Login</h2>
-                    <div class="formulario">
-                        <div class="campo">
-                            <span>E-mail</span>
-                            <input id="email_input" type="text" placeholder="E-mail">
-                        </div>
-                        <div class="campo">
-                            <span>Senha</span>
-                            <input id="senha_input" type="password" placeholder="******">
-                        </div>
-                        <button class="button_rosa" id='botao' onclick="entrar()">Entrar</button>
-                    </div>
-                    <a href="cadastro.html" id="a-rodape"><p class="texto-rodape">Ainda não possui uma conta? Cadastre-se</p></a>
+<div class="formulario-login">
+<h2>Login</h2>
+<div class="formulario">
+<div class="campo">
+<span>E-mail</span>
+<input id="email_input" type="text" placeholder="E-mail">
+</div>
+<div class="campo">
+<span>Senha</span>
+<input id="senha_input" type="password" placeholder="******">
+</div>
+<button class="button_rosa" id='botao' onclick="entrar()">Entrar</button>
+</div>
+<a href="cadastro.html" id="a-rodape"><p class="texto-rodape">Ainda não possui uma conta? <br>Entre em
+contato!</p></a>
 
-                    
-                </div>
-            </div>
+</div>
+</div>
 
-            <div id="div_erros_login"></div>
-        </div>
-    </div>
+<div id="div_erros_login"></div>
+</div>
+</div>
 
 </body>
 
 </html>
 <script>
-    function entrar() {
-        aguardar();
+function entrar() {
+aguardar();
 
-        var emailVar = email_input.value;
-        var senhaVar = senha_input.value;
+var emailVar = email_input.value;
+var senhaVar = senha_input.value;
 
-        if (emailVar == "" || senhaVar == "") {
-            cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-            finalizarAguardar();
-            return false;
-        }
-        else {
-            setInterval(sumirMensagem, 5000)
-        }
+if (emailVar == "" || senhaVar == "") {
+cardErro.style.display = "block"
+mensagem_erro.innerHTML = "(Preencha todos os campos)";
+finalizarAguardar();
+return false;
+}
+else {
+setInterval(sumirMensagem, 5000)
+}
 
-        console.log("FORM LOGIN: ", emailVar);
-        console.log("FORM SENHA: ", senhaVar);
+console.log("FORM LOGIN: ", emailVar);
+console.log("FORM SENHA: ", senhaVar);
 
-        fetch("/usuarios/autenticar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                emailServer: emailVar,
-                senhaServer: senhaVar
-            })
-        }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO entrar()!")
+fetch("/usuarios/autenticar", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+emailServer: emailVar,
+senhaServer: senhaVar
+})
+}).then(function (resposta) {
+console.log("ESTOU NO THEN DO entrar()!")
 
-            if (resposta.ok) {
-                console.log(resposta);
+if (resposta.ok) {
+console.log(resposta);
 
-                resposta.json().then(json => {
-                    console.log(json);
-                    console.log(JSON.stringify(json));
-                    sessionStorage.EMAIL_USUARIO = json.email;
-                    sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
+resposta.json().then(json => {
+console.log(json);
+console.log(JSON.stringify(json));
+sessionStorage.EMAIL_USUARIO = json.email;
+sessionStorage.NOME_USUARIO = json.nome;
+sessionStorage.ID_USUARIO = json.id;
+sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
 
-                    setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
-                    }, 1000); 
+setTimeout(function () {
+window.location = "./dashboard/cards.html";
+}, 1000);
 
-                });
+});
 
-            } else {
+} else {
 
-                console.log("Houve um erro ao tentar realizar o login!");
+console.log("Houve um erro ao tentar realizar o login!");
 
-                resposta.text().then(texto => {
-                    console.error(texto);
-                    finalizarAguardar(texto);
-                });
-            }
+resposta.text().then(texto => {
+console.error(texto);
+finalizarAguardar(texto);
+});
+}
 
-        }).catch(function (erro) {
-            console.log(erro);
-        })
+}).catch(function (erro) {
+console.log(erro);
+})
 
-        return false;
-    }
+return false;
+}
 
-    function sumirMensagem() {
-        cardErro.style.display = "none"
-    }
+function sumirMensagem() {
+cardErro.style.display = "none"
+}
 
 </script>
