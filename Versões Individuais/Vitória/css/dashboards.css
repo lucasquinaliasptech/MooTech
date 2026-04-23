@@ -1,0 +1,182 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  background: #ffffff;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  width: 260px;
+  height: 180px;
+  top: 30px;
+  left: 30px;
+  border-radius: 55% 45% 60% 40%;
+  transform: rotate(-18deg);
+}
+
+body::after {
+  width: 300px;
+  height: 200px;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 40% 60% 45% 55%;
+  transform: rotate(22deg);
+}
+
+.janela {
+  display: flex;
+  width: 100%;
+  z-index: 1;
+}
+
+.header-left {
+  width: 20%;
+  min-height: 100vh;
+  background: #ffffff;
+  border-right: 3px solid #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px;
+  z-index: 1;
+}
+
+.header-left h1 {
+  color: #000;
+}
+
+.header-left a {
+  text-decoration: none;
+}
+
+.hello h3 {
+  font-size: 16px;
+  color: #000;
+}
+
+.btn-nav,
+.btn-nav-white {
+  width: 80%;
+  text-align: center;
+  padding: 10px;
+  border-radius: 12px;
+  border: 2px solid #000;
+  cursor: pointer;
+}
+
+.btn-nav {
+  background: #000;
+  color: #fff;
+}
+
+.btn-nav-white {
+  background: #fff;
+  color: #000;
+}
+
+.btn-logout {
+  width: 60%;
+  padding: 10px;
+  border-radius: 12px;
+  background: #000;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+}
+
+.dash {
+  width: 80%;
+  padding: 30px;
+  z-index: 1;
+}
+
+.btns-dash {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.btn-chart {
+  padding: 10px 15px;
+  border: 2px solid #000;
+  background: #fff;
+  border-radius: 10px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.btn-pink {
+  background: #000;
+  color: #fff;
+}
+
+.btn-white {
+  background: #fff;
+  color: #000;
+}
+
+.tituloGraficos {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.graph {
+  background: #ffffff;
+  border: 3px solid #000;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 8px 8px 0 #000;
+  margin-bottom: 20px;
+}
+
+
+
+.label-captura {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.display-none {
+  display: none;
+}
+
+.display-block {
+  display: block;
+}
+
+.cards-graficos {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card-grafico {
+  background: #ffffff;
+  border: 3px solid #000;
+  border-radius: 20px;
+  padding: 15px;
+  width: 45%;
+  box-shadow: 8px 8px 0 #000;
+}
+
+.card-grafico h4 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+.card-grafico canvas {
+  width: 100% !important;
+}
+
