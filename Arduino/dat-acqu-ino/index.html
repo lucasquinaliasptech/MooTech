@@ -4,20 +4,24 @@
 <head>
     <title>Graphics</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="Dashboard_Arduino.css">
 </head>
 
 <body>
 <center>
-    <h1 style="color: #fdcbe4;">D A S H B O A R D</h1>
+    <h1 style="color: #fdcbe4;">
+        D A S H B O A R D
+    </h1>
         <div class="container">
-        <div class="grafico">
-            <canvas id="sensorTemperatura"></canvas>
+            <div class="grafico">
+                <canvas id="sensorTemperatura"></canvas>
+            </div>
+            <div class="grafico">
+                <canvas id="sensorUmidade"></canvas>
+            </div>
         </div>
-        <div class="grafico">
-            <canvas id="sensorUmidade"></canvas>
-        </div>
-    </div>
+
 </center>
     <div style="display: flex;">
         <div style="width: 50%;">
@@ -29,24 +33,61 @@
     </div>
 
     <script>
+
+        const kpiTemp = {
+            id:'kpiTemp', 
+            beforeDraw(chart, args, options) {
+                const {ctx, chartArea: {top, right, bottom, left, width, height},
+                    scales: {x, y} } = chart;
+                ctx.save(); 
+
+                ctx.strokeStyle = options.tempmaxima;
+                ctx.strokeRect(left, y.getPixelForValue(4), width, 0);
+                ctx.restore();
+
+                ctx.strokeStyle = options.tempminima;
+                ctx.strokeRect(left, y.getPixelForValue(0), width, 0);
+                ctx.restore();
+            }
+        }
+
+        const kpiUmi = {
+            id:'kpiUmi', 
+            beforeDraw(chart, args, options) {
+                const {ctx, chartArea: {top, right, bottom, left, width, height},
+                    scales: {x, y} } = chart;
+                ctx.save(); 
+
+                ctx.strokeStyle = options.umimaxima;
+                ctx.strokeRect(left, y.getPixelForValue(100), width, 0);
+                ctx.restore();
+
+                ctx.strokeStyle = options.umiminima;
+                ctx.strokeRect(left, y.getPixelForValue(75), width, 0);
+                ctx.restore();
+            }
+        }
+
+
         var sensorTemperatura = new Chart(document.getElementById('sensorTemperatura').getContext('2d'), {
             type: 'line',
             data: {
                 datasets: [{
-                    title: 'Temperatura em tempo real - Arduino',
+                    title: 'Temperatura em Tempo Real - Arduino',
                     label: 'Temperatura',
                     borderColor: '#F5F5F5',
-                    backgroundColor: '#ED145B'
+                    backgroundColor: '#ED145B',
                 }]
             },
             options: {
                 plugins: {
+
                     title: {
                         display: true,
-                        text: 'Temperatura em tempo real - Arduino',
-                        color: '#692E2E',
+                        text: 'Temperatura em Tempo Real - Arduino',
+                        color: '#c22929',
                         font: {
-                            family: 'Baskerville, Serif',
+                            family: 'Poppins, sans-serif',
                             size: 25,
                             
                         }
@@ -63,8 +104,15 @@
                 },
                 beginAtZero: true,
             },
+        },
+        plugins: {
+            kpiTemp: {
+                tempmaxima: 'green',
+                tempminima: 'red'
+            }
         }
-    }
+    },
+    plugins : [kpiTemp]
 });
 
         
@@ -82,10 +130,10 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Umidade em tempo real - Arduino',
-                        color: '#2E4766',
+                        text: 'Umidade em Tempo Real - Arduino',
+                        color: '#2d66ac',
                         font: {
-                            family: 'Baskerville, Serif',
+                            family: 'Poppins, sans-serif',
                             size: 25,
                             
                         }
@@ -102,8 +150,16 @@
                 },
                 beginAtZero: true,
             },
+        }, 
+
+        plugins: {
+            kpiUmi: {
+                umimaxima: 'green',
+                umiminima: 'red'
+            }
         }
-    }
+    },
+    plugins: [kpiUmi]
 });
 
         var paginacao = {};
