@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboards - MooTech</title>
@@ -9,82 +10,141 @@
     <link rel="stylesheet" href="./css/reset.css" />
     <link rel="stylesheet" href="./css/dashboards.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-  </head>
+</head>
 
-  <body>
+<body>
     <img src="./assets/manchasDashboard.png" class="background" alt="" />
+
+    <!-- Barra Lateral -->
     <div class="navbar">
-      <div class="logo_titulo">
-        <img id="logo" src="./assets/logo.png" />
-        <h1 class="titulo">MooTech</h1>
-      </div>
+        <div class="logo_titulo">
+            <img id="logo" src="./assets/logo.png" />
+            <h1 class="titulo">MooTech</h1>
+        </div>
 
-      <nav class="nav_itens">
-        <div class="destaque">PAINEL</div>
+        <nav class="nav_itens">
+            <div class="destaque">PAINEL</div>
 
-        <a href="#" class="item_agora">
-          <span class="nav-icon"></span> Dashboard
-        </a>
+            <a href="#" class="item_agora">
+                <span class="nav-icon"></span> Dashboard
+            </a>
 
-        <a href="#" class="nav-item">
-          <span class="nav-icon"></span> Relatórios
-        </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon"></span> Relatórios
+            </a>
 
-        <div class="destaque">CADASTRO</div>
-        <a href="#" class="nav-item" id="btn-cadastrar-tanque">
-          <span class="nav-icon"></span> Cadastrar Tanque
-        </a>
-        <a href="#" class="nav-item" id="btn-cadastrar-galpao">
-          <span class="nav-icon"></span> Cadastrar Galpão
-        </a>
+            <div class="destaque">CADASTRO</div>
+            <a href="#" class="nav-item" id="btn-cadastrar-tanque">
+                <span class="nav-icon"></span> Cadastrar Tanque
+            </a>
+            <a href="#" class="nav-item" id="btn-cadastrar-galpao">
+                <span class="nav-icon"></span> Cadastrar Galpão
+            </a>
 
-        <div class="destaque">STATUS TANQUES</div>
-        <a href="#" class="nav-item">
-          <span class="nav-icon"></span> Ativos
-          <span class="badge">6</span>
-        </a>
-        <a href="#" class="nav-item">
-          <span class="nav-icon"></span> Em Alerta
-          <span class="badge">2</span>
-        </a>
-        <a href="#" class="nav-item">
-          <span class="nav-icon"></span> Com Falha
-        </a>
-        <a href="#" class="nav-item">
-          <span class="nav-icon"></span> Inativos
-        </a>
+            <div class="destaque">STATUS TANQUES</div>
+            <a href="#" class="nav-item">
+                <span class="nav-icon"></span> Ativos
+                <span>6</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon"></span> Em Alerta
+                <span>2</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon"></span> Com Falha
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon"></span> Inativos
+            </a>
 
-        <div class="destaque">CONFIGURAÇÕES</div>
+            <div class="destaque">CONFIGURAÇÕES</div>
 
-        <a href="#" class="nav-item"> <span class="nav-icon"></span> Perfil </a>
-      </nav>
+            <a href="#" class="nav-item"> <span class="nav-icon"></span> Perfil </a>
+        </nav>
     </div>
 
-
-      <main class="main">
+    <!-- Parte Superior -->
+    <main class="main">
         <!-- Header -->
-        <header class="top-bar">
-          <div class="titulo_dash">
-            <h1>Dashboard de Monitoramento</h1>
-            <div class="alinhamento_lado">
-              <div class="select-label">
-                <label>Galpão:</label>
-                <select id="select_galpao" onchange="onGalpaoChange()">
-                  <option value="G1">Galpão 1</option>
-                  <option value="G2">Galpão 2</option>
-                </select>
-              </div>
-              <div class="select_label">
-                <label>Tanque:</label>
-                <select id="select-tanque" onchange="onTanqueChange()">
-                  <option value="T1">Tanque 1</option>
-                  <option value="T2">Tanque 2</option>
-                  <option value="T3">Tanque 3</option>
-                </select>
-              </div>
+        <header class="top_bar">
+            <div class="titulo_dash">
+                <h1>Dashboard de Monitoramento</h1>
+                <div class="alinhamento_lado">
+                    <div class="select_label">
+                        <label>Galpão:</label>
+                        <select id="select_galpao" onchange="onGalpaoChange()">
+                            <option value="G1">Galpão 1</option>
+                            <option option value="G2">Galpão 2</option>
+                        </select>
+                    </div>
+                    <div class="select_label">
+                        <label>Tanque:</label>
+                        <select id="select-tanque" onchange="onTanqueChange()">
+                            <option value="T1">Tanque 1</option>
+                            <option value="T2">Tanque 2</option>
+                            <option value="T3">Tanque 3</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-          
         </header>
+
+        <!-- Kpis Superiores -->
+        <section class="kpi_temp_umid">
+            <div class="kpi_card kpi_rosa">
+                <div class="kpi_titulo">Temperatura Atual do Tanque</div>
+                <div class="kpi_valor">
+                    <span>4</span><span class="valor_medida">°C</span>
+                </div>
+            </div>
+            <div class="kpi_card kpi_ciano">
+                <div class="kpi_titulo">Umidade Atual do Tanque</div>
+                <div class="kpi_valor">
+                    <span>72</span><span class="valor_medida">%</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gráficos -->
+        <section class="graficos">
+            <div class="card_grafico temperatura_grafico">
+                <div class="header_grafico">
+                    <span class="titulo_grafico">Temperatura do Tanque</span>
+                    <div class="legenda_grafico">
+                        <span class="item_legenda"><span class="linha_legenda linha_rosa"></span>Temperatura</span>
+                        <span class="item_legenda"><span class="linha_legenda linha_limite"></span>Limite Máx</span>
+                    </div>
+                </div>
+                <canvas id="chartTemperatura"></canvas>
+            </div>
+
+            <div class="card_grafico temperaturaTanques_grafico">
+                <div class="header_grafico">
+                    <span class="titulo_grafico">Temperatura por Tanque no Galpão</span>
+                    <div class="legenda_grafico">
+                        <span class="item_legenda"><span class="ponto_legenda ponto_rosa"></span>°C por Tanque</span>
+                    </div>
+                </div>
+                <canvas id="chartTempGalpao"></canvas>
+            </div>
+
+            <div class="card_grafico umidade_grafico">
+                <div class="header_grafico">
+                    <span class="titulo_grafico">Umidade do Tanque</span>
+                </div>
+                <canvas id="chartUmidade"></canvas>
+            </div>
+
+            <div class="card_grafico umidadeTanques_grafico">
+                <div class="header_grafico">
+                    <span class="titulo_grafico">Umidade por Tanque no Galpão</span>
+                    <div class="legenda_grafico">
+                        <span class="item_legenda"><span class="ponto_legenda ponto_ciano"></span>% por Tanque</span>
+                    </div>
+                </div>
+                <canvas id="chartUmidGalpao"></canvas>
+            </div>
+        </section>
 
         <!-- </div>
     <select name="" id="select_tanques">
@@ -117,8 +177,9 @@
             <canvas id="galpao"></canvas>
         </div>
     </section> -->
-      </main>
-    </div>
-  </body>
-  <script src="./js/dashboards.js"></script>
+        </header>
+    </main>
+</body>
+<script src="./js/dashboards.js"></script>
+
 </html>
