@@ -1,108 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboards - MooTech</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
-    <link rel="stylesheet" href="./css/reset.css">
-    <link rel="stylesheet" href="./css/dashboards.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-</head>
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/dashboards.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+  </head>
 
-<body>
-    <img src="./assets/manchasDashboard.png" class="background" alt="">
+  <body>
+    <img src="./assets/manchasDashboard.png" class="background" alt="" />
     <div class="navbar">
-        <div class="logo_titulo">
-            <img id="logo" src="./assets/logo.png">
-            <h1 class="titulo">MooTech</h1>
-        </div>
-
-        <nav class="nav_itens">
-    <div class="destaque">PAINEL</div>
-
-    <a href="#" class="item_agora">
-      <span class="nav-icon"></span> Dashboard
-    </a>
-
-    <a href="#" class="nav-item">
-      <span class="nav-icon"></span> Relatórios
-    </a>
-
-
-    <div class="destaque">CADASTRO</div>
-    <a href="#" class="nav-item" id="btn-cadastrar-tanque">
-      <span class="nav-icon"></span> Cadastrar Tanque
-    </a>
-    <a href="#" class="nav-item" id="btn-cadastrar-galpao">
-      <span class="nav-icon"></span> Cadastrar Galpão
-    </a>
-
-    <div class="destaque">STATUS TANQUES</div>
-    <a href="#" class="nav-item">
-      <span class="nav-icon"></span> Ativos
-      <span class="badge">6</span>
-    </a>
-    <a href="#" class="nav-item">
-      <span class="nav-icon"></span> Em Alerta
-      <span class="badge">2</span>
-    </a>
-    <a href="#" class="nav-item">
-      <span class="nav-icon"></span> Com Falha
-    </a>
-    <a href="#" class="nav-item">
-      <span class="nav-icon"></span> Inativos
-    </a>
-
-    <div class="destaque">CONFIGURAÇÕES</div>
-   
-    
-    <a href="#" class="nav-item">
-      <span class="nav-icon"></span> Perfil
-    </a>
-  </nav>
-
-
-  <main class="main">
-
-  <!-- Header -->
-  <header class="top-bar">
-    <div class="titulo_dash">
-      <h1>Dashboard de Monitoramento</h1>
-      <div class="alinhamento_lado">
-        <div class="select-label">
-          <label>Galpão:</label>
-          <select id="select_galpao" onchange="onGalpaoChange()">
-            <option value="G1">Galpão 1</option>
-            <option value="G2">Galpão 2</option>
-          </select>
-        </div>
-        <div class="select_label">
-          <label>Tanque:</label>
-          <select id="select-tanque" onchange="onTanqueChange()">
-            <option value="T1">Tanque 1</option>
-            <option value="T2">Tanque 2</option>
-            <option value="T3">Tanque 3</option>
-          </select>
-        </div>
+      <div class="logo_titulo">
+        <img id="logo" src="./assets/logo.png" />
+        <h1 class="titulo">MooTech</h1>
       </div>
-    </div>
-    <div class="top-bar-right">
-      <span class="live-dot"></span>
-      <span class="live-label">Ao Vivo</span>
-      <span class="timestamp" id="timestamp"></span>
-    </div>
-  </header>
 
+      <nav class="nav_itens">
+        <div class="destaque">PAINEL</div>
 
+        <a href="#" class="item_agora">
+          <span class="nav-icon"></span> Dashboard
+        </a>
 
+        <a href="#" class="nav-item">
+          <span class="nav-icon"></span> Relatórios
+        </a>
 
+        <div class="destaque">CADASTRO</div>
+        <a href="#" class="nav-item" id="btn-cadastrar-tanque">
+          <span class="nav-icon"></span> Cadastrar Tanque
+        </a>
+        <a href="#" class="nav-item" id="btn-cadastrar-galpao">
+          <span class="nav-icon"></span> Cadastrar Galpão
+        </a>
 
+        <div class="destaque">STATUS TANQUES</div>
+        <a href="#" class="nav-item">
+          <span class="nav-icon"></span> Ativos
+          <span class="badge">6</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-icon"></span> Em Alerta
+          <span class="badge">2</span>
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-icon"></span> Com Falha
+        </a>
+        <a href="#" class="nav-item">
+          <span class="nav-icon"></span> Inativos
+        </a>
 
+        <div class="destaque">CONFIGURAÇÕES</div>
 
-    <!-- </div>
+        <a href="#" class="nav-item"> <span class="nav-icon"></span> Perfil </a>
+      </nav>
+
+      <main class="main">
+        <!-- Header -->
+        <header class="top-bar">
+          <div class="titulo_dash">
+            <h1>Dashboard de Monitoramento</h1>
+            <div class="alinhamento_lado">
+              <div class="select-label">
+                <label>Galpão:</label>
+                <select id="select_galpao" onchange="onGalpaoChange()">
+                  <option value="G1">Galpão 1</option>
+                  <option value="G2">Galpão 2</option>
+                </select>
+              </div>
+              <div class="select_label">
+                <label>Tanque:</label>
+                <select id="select-tanque" onchange="onTanqueChange()">
+                  <option value="T1">Tanque 1</option>
+                  <option value="T2">Tanque 2</option>
+                  <option value="T3">Tanque 3</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- </div>
     <select name="" id="select_tanques">
         <option value="">Tanque A</option>
         <option value="">Tanque B</option>
@@ -132,137 +114,9 @@
         <div class="container_dash">
             <canvas id="galpao"></canvas>
         </div>
-    </section>
-</body> -->
-
-<script>
-    // Gráfico de Temperatura
-    const temp = document.getElementById('temperatura');
-
-    new Chart(temp, {
-        type: 'line',
-        data: {
-            labels: ['13:45', '13:50', '13:55', '14:00', '14:05', '14:10', '14:15', '14:20', '14:25', '14:30'],
-            datasets: [{
-                label: 'Temperatura (°C)',
-                data: [2.6, 3.1, 3.4, 3.0, 3.7, 4.2, 4.0, 3.6, 3.3, 2.4],
-                borderWidth: 3,
-                borderColor: 'white'
-            }]
-        },
-        options: {
-            scales: {
-                x: {
-                    ticks: {
-                        color: 'white'
-                    }
-                },
-                y: {
-                    ticks: {
-                        color: 'white'
-                    },
-                    beginAtZero: true,
-                    suggestedMax: 6
-                }
-            },
-            // Plugin para definir limiares
-            plugins: {
-                annotation: {
-                    annotations: {
-                        linhaMax: {
-                            type: 'line',
-                            yMin: 4,
-                            yMax: 4,
-                            borderColor: 'red',
-                            borderWidth: 2,
-                            label: {
-                                display: true,
-                                content: 'Limite Máximo (4°C)',
-                                position: 'end'
-                            }
-                        },
-                        linhaMin: {
-                            type: 'line',
-                            yMin: 0,
-                            yMax: 0,
-                            borderColor: 'red',
-                            borderWidth: 2,
-                            label: {
-                                display: true,
-                                content: 'Limite Mínimo (0°C)',
-                                position: 'end'
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-    // Gráfico de Umidade
-    const umid = document.getElementById('umidade');
-
-    new Chart(umid, {
-        type: 'line',
-        data: {
-            labels: ['13:45', '13:50', '13:55', '14:00', '14:05', '14:10', '14:15', '14:20', '14:25', '14:30'],
-            datasets: [{
-                label: 'Umidade (%)',
-                data: [70.2, 72.5, 75.8, 78.1, 79.4, 77.2, 74.5, 71.3, 68.6, 66.4],
-                borderWidth: 3,
-                borderColor: 'white'
-            }]
-        },
-        options: {
-            scales: {
-                x: {
-                    ticks: {
-                        color: 'white'
-                    }
-                },
-                y: {
-                    ticks: {
-                        color: 'white'
-                    },
-                    suggestedMin: 60,
-                    suggestedMax: 100
-                }
-            },
-            // Plugin para definir limiar
-            plugins: {
-                annotation: {
-                    annotations: {
-                        linhaMax: {
-                            type: 'line',
-                            yMin: 100,
-                            yMax: 100,
-                            borderColor: 'red',
-                            borderWidth: 2,
-                            label: {
-                                display: true,
-                                content: 'Limite Máximo (100%)',
-                                position: 'end'
-                            }
-                        },
-                        linhaMin: {
-                            type: 'line',
-                            yMin: 75,
-                            yMax: 75,
-                            borderColor: 'red',
-                            borderWidth: 2,
-                            label: {
-                                display: true,
-                                content: 'Limite Mínimo (75%)',
-                                position: 'end'
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-
-</script>
-
+    </section> -->
+      </main>
+    </div>
+  </body>
+  <script src="./js/dashboards.js"></script>
 </html>

@@ -47,6 +47,7 @@ body {
 
 .navbar {
   background-color: #1D1D1B;
+  height: 100vh;
   width: 220px;
   min-width: 220px;
   left: 0px;
@@ -144,6 +145,27 @@ body {
   color: E993A7;
   font-size: 13px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
