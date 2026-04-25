@@ -12,8 +12,8 @@ SELECT * FROM usuario WHERE email = '${email}' AND senha = '${senha}';
 function cadastrar(nome, nomeFantasia, cnpj, email, telefone, senha) {
     console.log("ACESSEI O USUARIO MODEL \n \n function cadastrar():", nome, nomeFantasia, cnpj, email, telefone, senha);
     var instrucaoSql = `
-INSERT INTO usuario (razao_social, nome_fantasia, cnpj, email, telefone, senha)
-VALUES ('${nome}', '${nomeFantasia}', '${cnpj}', '${email}', '${telefone}', '${senha}');
+INSERT INTO usuario (razao_social, nome_fantasia, cnpj, email, telefone, senha, status_usuario)
+VALUES ('${nome}', '${nomeFantasia}', '${cnpj}', '${email}', '${telefone}', '${senha}', 1);
 `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
