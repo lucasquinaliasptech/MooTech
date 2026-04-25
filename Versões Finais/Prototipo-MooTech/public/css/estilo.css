@@ -103,10 +103,11 @@ header a{
   width: 820px;
 }
 
-.azul {
-  color: #65C2FF;
+.destaque {
+  color: #E993A7;
   font-weight: bold;
   font-size: 35px;
+  
 }
 
 #vacabanner {
