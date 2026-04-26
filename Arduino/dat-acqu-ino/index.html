@@ -4,15 +4,17 @@
 <head>
     <title>Graphics</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="Dashboard_Arduino.css">
 </head>
 
 <body>
-<center>
-    <h1 style="color: #fdcbe4;">
-        D A S H B O A R D
-    </h1>
+    <center>
+        <h1 style="color: #fdcbe4;">
+            D A S H B O A R D
+        </h1>
         <div class="container">
             <div class="grafico">
                 <canvas id="sensorTemperatura"></canvas>
@@ -22,7 +24,7 @@
             </div>
         </div>
 
-</center>
+    </center>
     <div style="display: flex;">
         <div style="width: 50%;">
             <canvas id="sensorTemperatura"></canvas>
@@ -33,55 +35,31 @@
     </div>
 
     <script>
-
-        const kpiTemp = {
-            id:'kpiTemp', 
-            beforeDraw(chart, args, options) {
-                const {ctx, chartArea: {top, right, bottom, left, width, height},
-                    scales: {x, y} } = chart;
-                ctx.save(); 
-
-                ctx.strokeStyle = options.tempmaxima;
-                ctx.strokeRect(left, y.getPixelForValue(4), width, 0);
-                ctx.restore();
-
-                ctx.strokeStyle = options.tempminima;
-                ctx.strokeRect(left, y.getPixelForValue(0), width, 0);
-                ctx.restore();
-            }
-        }
-
-        const kpiUmi = {
-            id:'kpiUmi', 
-            beforeDraw(chart, args, options) {
-                const {ctx, chartArea: {top, right, bottom, left, width, height},
-                    scales: {x, y} } = chart;
-                ctx.save(); 
-
-                ctx.strokeStyle = options.umimaxima;
-                ctx.strokeRect(left, y.getPixelForValue(100), width, 0);
-                ctx.restore();
-
-                ctx.strokeStyle = options.umiminima;
-                ctx.strokeRect(left, y.getPixelForValue(75), width, 0);
-                ctx.restore();
-            }
-        }
-
-
         var sensorTemperatura = new Chart(document.getElementById('sensorTemperatura').getContext('2d'), {
             type: 'line',
             data: {
                 datasets: [{
                     title: 'Temperatura em Tempo Real - Arduino',
                     label: 'Temperatura',
-                    borderColor: '#F5F5F5',
+                    borderColor: '#ED145B',
                     backgroundColor: '#ED145B',
                 }]
             },
             options: {
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: '(˚C)'
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 6
+                    }
+                },
                 plugins: {
-
                     title: {
                         display: true,
                         text: 'Temperatura em Tempo Real - Arduino',
@@ -89,44 +67,66 @@
                         font: {
                             family: 'Poppins, sans-serif',
                             size: 25,
-                            
+
+                        }
+                    },
+                    annotation: {
+                        annotations: {
+                            linhaMax: {
+                                type: "line",
+                                yMin: 4,
+                                yMax: 4,
+                                borderColor: "red",
+                                borderWidth: 2,
+                                label: {
+                                    display: true,
+                                    content: "Limite Máximo (4°C)",
+                                    position: "end"
+                                }
+                            },
+                            linhaMin: {
+                                type: "line",
+                                yMin: 0,
+                                yMax: 0,
+                                borderColor: "red",
+                                borderWidth: 2,
+                                label: {
+                                    display: true,
+                                    content: "Limite Mínimo (0°C)",
+                                    position: "end"
+                                }
+                            }
                         }
                     }
-                },
-                scales: {
-                    x: {
-                        beginAtZero: true
-                    },
-                    y: {
-                title: {
-                    display: true,
-                    text: '(˚C)'
-                },
-                beginAtZero: true,
-            },
-        },
-        plugins: {
-            kpiTemp: {
-                tempmaxima: 'green',
-                tempminima: 'red'
+                }
             }
-        }
-    },
-    plugins : [kpiTemp]
-});
+        });
 
-        
+
 
         var sensorUmidade = new Chart(document.getElementById('sensorUmidade').getContext('2d'), {
             type: 'line',
             data: {
                 datasets: [{
                     label: 'Umidade',
-                    borderColor: '#F5F5F5',
+                    borderColor: '#0000FF',
                     backgroundColor: '#0000FF'
                 }]
             },
             options: {
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: '(%)'
+                        },
+                        suggestedMin: 60,
+                        suggestedMax: 100
+                    }
+                },
                 plugins: {
                     title: {
                         display: true,
@@ -134,33 +134,40 @@
                         color: '#2d66ac',
                         font: {
                             family: 'Poppins, sans-serif',
-                            size: 25,
-                            
+                            size: 25
+                        }
+                    },
+                    annotation: {
+                        annotations: {
+                            linhaMax: {
+                                type: "line",
+                                yMin: 100,
+                                yMax: 100,
+                                borderColor: "red",
+                                borderWidth: 2,
+                                label: {
+                                    display: true,
+                                    content: "Limite Máximo (100%)",
+                                    position: "end"
+                                }
+                            },
+                            linhaMin: {
+                                type: "line",
+                                yMin: 75,
+                                yMax: 75,
+                                borderColor: "red",
+                                borderWidth: 2,
+                                label: {
+                                    display: true,
+                                    content: "Limite Mínimo (75%)",
+                                    position: "end"
+                                }
+                            }
                         }
                     }
-                },
-                scales: {
-                    x: {
-                        beginAtZero: true
-                    },
-                    y: {
-                title: {
-                    display: true,
-                    text: '(%)'
-                },
-                beginAtZero: true,
-            },
-        }, 
-
-        plugins: {
-            kpiUmi: {
-                umimaxima: 'green',
-                umiminima: 'red'
+                }
             }
-        }
-    },
-    plugins: [kpiUmi]
-});
+        });
 
         var paginacao = {};
         var tempo = {};
