@@ -38,7 +38,7 @@
 
 ###
 
-<h6 align="center">Feito com carinho pelos MooTechers 🐮<br>[Jhenifer Rebeca Rangel Tavares](https://github.com/JheniferTavares)<br>[Leticia Miranda Bastos](https://github.com/leh-sptech)<br>[Lucas de Britto Cruz](https://github.com/lucas-britto-dev)<br>[Lucas Raphael Garcia Quinália](https://github.com/lucasquinaliasptech)<br>[Yasmin Eloíta Nascimento](https://github.com/YasminEloitaNascimento)</h6>
+<h6 align="center">Feito com carinho pelos MooTechers 🐮<br><a href="https://github.com/JheniferTavares">Jhenifer Rebeca Rangel Tavares</a><br>[Leticia Miranda Bastos](https://github.com/leh-sptech)<br>[Lucas de Britto Cruz](https://github.com/lucas-britto-dev)<br>[Lucas Raphael Garcia Quinália](https://github.com/lucasquinaliasptech)<br>[Yasmin Eloíta Nascimento](https://github.com/YasminEloitaNascimento)</h6>
 
 ###
 
