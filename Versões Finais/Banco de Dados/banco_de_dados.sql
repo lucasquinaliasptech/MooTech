@@ -180,19 +180,35 @@ INSERT INTO leitura_sensor_temperatura_umidade (temperatura, umidade, fk_sensor_
 SELECT * FROM usuario;
 
 -- Usuários ativos
-SELECT * FROM usuario
+SELECT *,
+CASE
+	WHEN status_usuario = 1 THEN "Ativo"
+    END AS "Status do Usuário"
+    FROM usuario
 WHERE status_usuario = 1;
 
 -- Sensores inativos
-SELECT * FROM sensor_temperatura_umidade
+SELECT *,
+CASE
+	WHEN status_sensor = 0 THEN "Inativo"
+    END AS "Status do Sensor"
+ FROM sensor_temperatura_umidade
 WHERE status_sensor = 0;
 
 -- Sensores ativos
-SELECT * FROM sensor_temperatura_umidade
+SELECT *,
+CASE
+	WHEN status_sensor = 1 THEN "Ativo"
+    END AS "Status do Sensor"
+ FROM sensor_temperatura_umidade
 WHERE status_sensor = 1;
 
 -- Sensores em manutenção
-SELECT * FROM sensor_temperatura_umidade
+SELECT *,
+CASE
+	WHEN status_sensor = 2 THEN "Em Manutenção"
+    END AS "Status do Sensor"
+ FROM sensor_temperatura_umidade
 WHERE status_sensor = 2;
 
 -- Endereços das empresas
@@ -214,7 +230,8 @@ SELECT
 FROM galpao g
 JOIN endereco e ON g.fk_endereco = e.id_endereco
 JOIN usuario u ON e.fk_usuario = u.id_usuario
-JOIN estado es ON e.fk_estado = es.id_estado;
+JOIN estado es ON e.fk_estado = es.id_estado
+ORDER BY u.razao_social;
 
 -- Informações completas (Leitura, sensor, usuario e endereco)
 SELECT
@@ -248,6 +265,7 @@ SELECT
 	s.id_sensor AS "ID do Sensor",
 	CASE
 		WHEN s.status_sensor = 1 THEN "Ativo"
+        WHEN s.status_sensor = 2 THEN "Em Manutenção"
         ELSE "Inativo"
 	END AS "Status do Sensor",
 	t.id_tanque AS Tanques,
@@ -292,7 +310,8 @@ SELECT
     g.nome_galpao AS Galpao,
 
     CASE 
-        WHEN l.umidade > 100 THEN 'ALERTA'
+        WHEN l.umidade < 60 THEN 'CRÍTICO'
+        WHEN l.umidade < 75 THEN 'ALERTA'
         ELSE 'NORMAL'
     END AS status_umidade
 
@@ -303,3 +322,38 @@ JOIN tanque t
     ON s.fk_tanque = t.id_tanque
 JOIN galpao g 
     ON t.fk_galpao = g.id_galpao;
+    
+    
+-- Select para cada sensor com order by e limit (alterar o where para selecionar sensor)
+
+SELECT
+	l.id_leitura "Leitura",
+    l.temperatura "Temperatura",
+    CASE
+		WHEN l.temperatura > 4.0 THEN 'CRÍTICO'
+        WHEN l.temperatura > 3.5 THEN 'ALERTA'
+        WHEN l.temperatura < 0 THEN 'CRÍTICO'
+        WHEN l.temperatura < 0.3 THEN 'ALERTA'
+        ELSE 'NORMAL'
+    END AS "Status Temperatura",
+    l.umidade "Umidade",
+    CASE 
+        WHEN l.umidade < 65 THEN 'CRÍTICO'
+        WHEN l.umidade < 80 THEN 'ALERTA'
+        ELSE 'NORMAL'
+    END AS "Status Umidade",
+    l.historico_registro "Horário do Registro",
+    s.id_sensor "Sensor",
+    t.id_tanque "Tanque",
+    g.nome_galpao "Galpão"
+    
+    FROM leitura_sensor_temperatura_umidade l
+JOIN sensor_temperatura_umidade s 
+    ON l.fk_sensor_temperatura_umidade = s.id_sensor
+JOIN tanque t 
+    ON s.fk_tanque = t.id_tanque
+JOIN galpao g 
+    ON t.fk_galpao = g.id_galpao
+WHERE s.id_sensor = 1
+ORDER BY l.id_leitura DESC
+LIMIT 10;
