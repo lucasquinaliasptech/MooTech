@@ -1,18 +1,15 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboards - MooTech</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
     <link rel="stylesheet" href="./css/reset.css" />
     <link rel="stylesheet" href="./css/dashboards.css" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
 </head>
-
-<body>
+<body onload="criarChartTodos(), centralNavbar()"> 
     <img src="./assets/manchasDashboard.png" class="background" alt="" />
 
     <!-- Barra Lateral -->
@@ -30,31 +27,25 @@
             </a>
 
             <a href="#">
-                <span class="nav-icon"></span> Relatórios
+                <span class="nav-icon"></span> Manuais
             </a>
 
-            <div class="destaque">CADASTRO</div>
-            <a href="#" id="btn-cadastrar-tanque">
-                <span class="nav-icon"></span> Cadastrar Tanque
-            </a>
-            <a href="#" id="btn-cadastrar-galpao">
-                <span class="nav-icon"></span> Cadastrar Galpão
+            <a href="#">
+                <span class="nav-icon"></span> Suporte
             </a>
 
             <div class="destaque">STATUS TANQUES</div>
             <a href="#">
                 <span class="nav-icon"></span> Ativos
-                <span>6</span>
+                <span id="emAtivos"></span>
             </a>
             <a href="#" >
                 <span class="nav-icon"></span> Em Alerta
-                <span>2</span>
+                <span id="emAlerta"></span>
             </a>
             <a href="#">
-                <span class="nav-icon"></span> Com Falha
-            </a>
-            <a href="#">
-                <span class="nav-icon"></span> Inativos
+                <span class="nav-icon"></span> Em Manutenção 
+                <span id="emManutencao"></span>
             </a>
 
             <div class="destaque">CONFIGURAÇÕES</div>
@@ -74,19 +65,20 @@
                 <div class="alinhamento_lado">
                     <div class="select_label">
                         <label>Galpão:</label>
-                        <select id="select_galpao" onchange="onGalpaoChange()">
-                            <option value="G1">Galpão 1</option>
-                            <option option value="G2">Galpão 2</option>
+                        <select id="select_galpao" onchange="atualizarChart()">
+                            <option value="1">Galpão 1</option>
+                            <option value="2">Galpão 2</option>
                         </select>
                     </div>
                     <div class="select_label">
                         <label>Tanque:</label>
-                        <select id="select-tanque" onchange="onTanqueChange()">
-                            <option value="T1">Tanque 1</option>
-                            <option value="T2">Tanque 2</option>
-                            <option value="T3">Tanque 3</option>
-                            <option value="T4">Tanque 4</option>
-                            <option value="T5">Tanque 5</option>
+                        <select id="select-tanque" onchange="atualizarChart()">
+                            <option value="todos">Todos</option>
+                            <option value="1">Tanque 1</option>
+                            <option value="2">Tanque 2</option>
+                            <option value="3">Tanque 3</option>
+                            <option value="4">Tanque 4</option>
+                            <option value="5">Tanque 5</option>
                         </select>
                     </div>
                 </div>
@@ -96,24 +88,37 @@
         <!-- Kpis Superiores -->
         <section class="kpi_temp_umid">
             <div class="kpi_card kpi_rosa">
-                <div class="kpi_titulo">Temperatura Atual do Tanque</div>
+                <div class="kpi_titulo">Temperatura Mais Baixa | <span>Galpão: <span id="idgalpaoTempBaixa"></span> |</span><span> Tanque: <span id="idtanqueTempBaixa"></span></span></div>
                 <div class="kpi_valor">
-                    <span>4</span><span class="valor_medida">°C</span>
+                    <span id="tanquetempmenor"></span><span class="valor_medida">°C</span>
+                </div>
+            </div>
+            <div class="kpi_card kpi_rosa">
+                <div class="kpi_titulo">Temperatura Mais Alta | <span>Galpão: <span id="idgalpaoTempAlta"></span> |</span><span> Tanque: <span id="idtanqueTempAlta"></span></span></div>
+                <div class="kpi_valor">
+                    <span id="tanquetempmaior"></span><span class="valor_medida">°C</span>
                 </div>
             </div>
             <div class="kpi_card kpi_ciano">
-                <div class="kpi_titulo">Umidade Atual do Tanque</div>
+                <div class="kpi_titulo">Umidade Mais Baixa | <span>Galpão: <span id="idgalpaoUmiBaixa"></span> |</span><span> Tanque: <span id="idtanqueUmiBaixa"></span></span></div>
                 <div class="kpi_valor">
-                    <span>72</span><span class="valor_medida">%</span>
+                    <span id="tanqueumidademenos"></span><span class="valor_medida">%</span>
+                </div>
+            </div>
+            <div class="kpi_card kpi_ciano">
+                <div class="kpi_titulo">Umidade Mais Alta | <span>Galpão: <span id="idgalpaoUmiAlta"></span> |</span><span> Tanque: <span id="idtanqueUmiAlta"></span></span></div>
+                <div class="kpi_valor">
+                    <span id="tanqueumidademaior"></span><span class="valor_medida">%</span>
                 </div>
             </div>
         </section>
 
         <!-- Gráficos -->
-        <section class="graficos">
+        <section class="graficos" id="graficos_section">
+            <span class="nome_grafico">Gráfico da temperatura atual:</span>
             <div class="card_grafico temperatura_grafico">
                 <div class="header_grafico">
-                    <span class="titulo_grafico">Temperatura do Tanque</span>
+                    <span class="titulo_grafico">Temperatura do Tanque <span id="tanqueid"></span></span>
                     <div class="legenda_grafico">
                         <span class="item_legenda"><span class="linha_legenda linha_rosa"></span>Temperatura</span>
                         <span class="item_legenda"><span class="linha_legenda linha_limite"></span>Limite</span>
@@ -121,90 +126,27 @@
                 </div>
                 <canvas id="chartTemperatura"></canvas>
             </div>
-
-            <div class="card_grafico temperaturaTanques_grafico">
+        </section>
+        <section class="graficos" id="graficos_section2">
+            <span class="nome_grafico">Gráfico da Umidade atual:</span>
+            <div class="card_grafico temperatura_grafico">
                 <div class="header_grafico">
-                    <span class="titulo_grafico">Temperatura por Tanque no Galpão</span>
+                    <span class="titulo_grafico">Umidade do Tanque <span id="tanqueid2"></span></span>
                     <div class="legenda_grafico">
-                        <span class="item_legenda"><span class="ponto_legenda ponto_rosa"></span>°C por Tanque</span>
+                        <span class="item_legenda"><span class="linha_legenda linha_rosa"></span>Temperatura</span>
+                        <span class="item_legenda"><span class="linha_legenda linha_limite"></span>Limite</span>
                     </div>
-                </div>
-                <canvas id="chartTempGalpao"></canvas>
-            </div>
-
-            <div class="card_grafico umidade_grafico">
-                <div class="header_grafico">
-                    <span class="titulo_grafico">Umidade do Tanque</span>
                 </div>
                 <canvas id="chartUmidade"></canvas>
             </div>
-
-            <div class="card_grafico umidadeTanques_grafico">
-                <div class="header_grafico">
-                    <span class="titulo_grafico">Umidade por Tanque no Galpão</span>
-                    <div class="legenda_grafico">
-                        <span class="item_legenda"><span class="ponto_legenda ponto_ciano"></span>% por Tanque</span>
-                    </div>
-                </div>
-                <canvas id="chartUmidGalpao"></canvas>
-            </div>
         </section>
-        </header>
-        <div class="div_ia">
-            <div class="ia_ausente" id="iaAusente" onclick="abrirOverlay()">
-                <img src="./assets/icons/mia.png" alt="">
-            </div>
-            <div class="ia_ativa" id="iaAtiva">
-                <header class="header_ia">
-                    <img src="./assets/icons/mia.png" alt="">
-                    <span class="titulo_ia">MIA</span>
-                    <span onclick="fecharOverlay()" class="span_fechar">X</span>
-                </header>
-                <div class="body_ia" id="bodyIa"></div>
-                <footer class="footer_ia">
-                    <textarea placeholder="Digite sua pergunta aqui..." class="text_pergunta" id="pergunta"></textarea>
-                    <div class="div_confirmarResposta" onclick="gerarResposta()">
-                        <img src="./assets/icons/send_message_icon_250990.png">
-                    </div>
-                </footer>
-            </div>
+        <div class="graficos_section_todos" class="graficos">
+            <div id="dados_temp"></div>
+        </div>
+        <div class="graficos_section_todos_umi" class="graficos">
+            <div id="dados_umi"></div>
         </div>
     </main>
+    <script src="./js/dashboard.js"></script>
 </body>
-<script src="./js/dashboards.js"></script>
 </html>
-<script>
-    function abrirOverlay() {
-        document.getElementById("iaAusente").style.display = "none";
-        document.getElementById("iaAtiva").style.display = "flex";
-    }
-
-    function fecharOverlay() {
-        document.getElementById("iaAusente").style.display = "flex";
-        document.getElementById("iaAtiva").style.display = "none";
-    }
-
-    async function gerarResposta() {
-        let inputPergunta = document.getElementById('pergunta');
-        let textoPergunta = inputPergunta.value;
-        
-        let bodyIa = document.getElementById('bodyIa');
-        bodyIa.innerHTML += `<span class="pergunta_user">${textoPergunta}</span>`;
-        bodyIa.scrollTop = bodyIa.scrollHeight;
-
-        inputPergunta.value = "";
-
-        let response = await fetch('/ia/perguntar', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ pergunta: textoPergunta })
-        });
-
-        let data = await response.json();
-
-        bodyIa.innerHTML += `<span class="resposta_ia">${data.resultado}</span>`;
-        bodyIa.scrollTop = bodyIa.scrollHeight;
-    }
-</script>

@@ -7,7 +7,7 @@ body {
   color: white;
   font-family: "Poppins", sans-serif;
   font-size: 14px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 body {
@@ -108,7 +108,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  /* overflow: hidden; */
   padding: 0;
 }
 
@@ -218,15 +218,38 @@ body {
 
 /* ─── Gráficos  ────────────────────────────────────────── */
 
+#graficos_section_todos_umi {
+  display: none;
+}
+#graficos_section_todos {
+  display: none;
+}
+
+#kpi_valores {
+  color: white;
+}
+.titulo_graficos{
+  color: white;
+}
+.container_todos {
+  display: flex;
+background-color: #e62f59;
+}
+
 .graficos {
-  flex: 1;
-  display: grid;
+  /* flex: 1; */
+  /* display: grid; 
   grid-template-columns: 1fr 320px;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr 1fr; */
   gap: 16px;
   padding: 0 28px 20px;
-  overflow: hidden;
-  min-height: 0;
+  /* overflow: hidden; */
+  /* min-height: 0; */
+}
+
+.nome_grafico {
+  font-size: 25px;
+  font-weight: 500;
 }
 
 .card_grafico {
@@ -238,7 +261,9 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  overflow: hidden;
+  max-height: 450px;
+  width: 1000px;
+  /* overflow: hidden; */
 }
 
 .card_grafico canvas {
@@ -322,133 +347,4 @@ body {
 
 .ponto_ciano {
   background-color: #58ddd2;
-}
-
-/* ─── Overlay IA ────────────────────────────────────────── */
-.div_ia {
-  display: flex;
-  justify-content: flex-end;
-  position: fixed;
-  bottom: 15px;
-  right: 30px;
-  width: 200px;
-}
-
-.ia_ausente img {
-  border-radius: 50%;
-  width: 70px;
-  cursor: pointer;
-}
-
-.ia_ativa {
-  display: none;
-  flex-direction: column;
-}
-
-.header_ia {
-  display: flex;
-  background-color: #803143;
-  justify-content: space-around;
-  align-items: center;
-  height: 70px;
-  border-radius: 30px 30px 0 0;
-  border: #000 solid 1px;
-  
-}
-
-.header_ia img {
-  width: 50px;
-  border-radius: 50%;
-  box-shadow: 0 4px 4px #000;
-}
-
-
-
-.titulo_ia {
-  font-size: 40px;
-  font-weight: bold;
-  color: #ffffff;
-  text-shadow: 0 4px 4px #000;
-}
-
-.body_ia {
-  display: flex;
-  flex-direction: column;
-  height: 300px;
-  width: 410px;
-  background-color: white;
-  font-family: "Poppins";
-  border-left: #000 solid 1px;
-  border-right: #000 solid 1px;
-  overflow-y: auto;
-  padding: 10px 0;
-}
-
-.pergunta_user {
-  color: #1D1D1B;
-  border-radius: 20px 20px 0px 20px;
-  background-color: #E993A7;
-  align-self: flex-end;
-  font-size: 14px;
-  padding: 10px 15px;
-  margin: 10px;
-  max-width: 80%;
-}
-
-.resposta_ia {
-  color: #fff;
-  border-radius: 20px 20px 20px 0px; 
-  background-color: #803143;
-  align-self: flex-start;
-  font-size: 14px;
-  padding: 10px 15px;
-  margin: 10px;
-  max-width: 80%;
-}
-
-.footer_ia {
-  display: flex;
-}
-
-.footer_ia img {
-  width: 50px;
-}
-
-.text_pergunta {
-  background-color: #9c9c9c;
-  width: 349px;
-  border: none;
-  border-radius: 0 0 0 30px;
-  resize: none;
-  font-family: "Poppins";
-  border-left: #000 solid 1px;
-  border-bottom: #000 solid 1px;
-  font-size: 20px;
-  padding-left: 20px;
-}
-
-.text_pergunta::placeholder {
-  color: #fff;
-}
-
-
-.div_confirmarResposta {
-  background-color: #9c9c9c;
-  padding: 5px;
-  border-radius: 0 0 30px 0;
-  cursor: pointer;
-  border-right: #000 solid 1px;
-  border-bottom: #000 solid 1px;
-}
-
-.div_confirmarResposta img {
-  filter: drop-shadow(1px 1px 3px #803143);
-}
-
-.span_fechar {
-  font-size: 45px;
-  font-weight: bold;
-  color: #ffffff;
-  cursor: pointer;
-  text-shadow: 0 4px 4px #000;
 }
