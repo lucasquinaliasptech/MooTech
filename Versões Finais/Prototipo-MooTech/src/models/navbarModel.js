@@ -22,7 +22,7 @@ function buscarAtivo(idUsuario) {
 function buscarAlerta(idUsuario) {
 
    var instrucaoSql = `
-        SELECT COUNT(*) as Alertas
+        SELECT COUNT(DISTINCT s.id_sensor) as Alertas
             FROM leitura_sensor_temperatura_umidade l
             JOIN sensor_temperatura_umidade s 
         ON l.fk_sensor_temperatura_umidade = s.id_sensor
