@@ -24,7 +24,8 @@ function buscarMedidasTempoReal(idGalpao, idTanque, idUsuario){
         ON fk_endereco = id_endereco
             JOIN usuario
         ON fk_usuario = id_usuario
-        WHERE fk_galpao = ${idGalpao} AND fk_tanque = ${idTanque} AND id_usuario = ${idUsuario};`;
+        WHERE fk_galpao = ${idGalpao} AND fk_tanque = ${idTanque} AND id_usuario = ${idUsuario};
+    `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

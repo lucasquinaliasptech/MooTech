@@ -21,7 +21,7 @@ function buscarAtivo(idUsuario) {
 
 function buscarAlerta(idUsuario) {
 
-   var instrucaoSql = `
+    var instrucaoSql = `
         SELECT COUNT(DISTINCT s.id_sensor) as Alertas
             FROM leitura_sensor_temperatura_umidade l
             JOIN sensor_temperatura_umidade s 
@@ -62,40 +62,44 @@ function buscarManutencao(idUsuario) {
 
 function buscarTempAlta(idUsuario) {
         var instrucaoSql = `
-        SELECT * FROM vw_temperatura_maxima
-        WHERE id_usuario = ${idUsuario}
-        LIMIT 1;
-    `
+            SELECT * FROM todos 
+            WHERE id_usuario = ${idUsuario} 
+            ORDER BY historico_registro DESC, t DESC 
+            LIMIT 1;
+        `
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 function buscarTempBaixa(idUsuario){
     var instrucaoSql = `
-        SELECT * FROM vw_temperatura_baixa
-        WHERE id_usuario = ${idUsuario}
-        LIMIT 1;
-    `
+            SELECT * FROM todos 
+            WHERE id_usuario = ${idUsuario} 
+            ORDER BY historico_registro DESC, t ASC 
+            LIMIT 1;
+        `
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 function buscarUmiAlta(idUsuario){
     var instrucaoSql = `
-        SELECT * FROM vw_umidade_maxima
-        WHERE id_usuario = ${idUsuario}
-        LIMIT 1;
-    `
+            SELECT * FROM todos 
+            WHERE id_usuario = ${idUsuario} 
+            ORDER BY historico_registro DESC, u DESC 
+            LIMIT 1;
+        `
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 function buscarUmiBaixa(idUsuario) {
     var instrucaoSql = `
-        SELECT * from vw_umidade_baixa
-        WHERE id_usuario = ${idUsuario}
-        LIMIT 1;
-    `
+            SELECT * FROM todos 
+            WHERE id_usuario = ${idUsuario} 
+            ORDER BY historico_registro DESC, u ASC 
+            LIMIT 1;
+        `
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }

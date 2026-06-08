@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./css/reset.css" />
     <link rel="stylesheet" href="./css/dashboards.css" />
 </head>
-<body onload="criarChartTodos(), centralNavbar()"> 
+<body onload="criarChartTodos(), centralNavbar(), iniciarMonitoramentoTempoReal()"> 
     <img src="./assets/manchasDashboard.png" class="background" alt="" />
 
     <!-- Barra Lateral -->
@@ -30,7 +30,7 @@
                 <span class="nav-icon"></span> Manuais
             </a>
 
-            <a href="#">
+            <a href="https://mootech.atlassian.net/servicedesk/customer/portals">
                 <span class="nav-icon"></span> Suporte
             </a>
 
@@ -85,40 +85,44 @@
 
         <!-- Kpis Superiores -->
         <section class="kpi_temp_umid">
-            <div class="kpi_card kpi_rosa">
+            <div class="card_kpi">
                 <div class="kpi_titulo">Temperatura Mais Baixa | <span>Galpão: <span id="idgalpaoTempBaixa"></span> |</span><span> Tanque: <span id="idtanqueTempBaixa"></span></span></div>
                 <div class="kpi_valor">
                     <span id="tanquetempmenor"></span><span class="valor_medida">°C</span>
+                    <img id="icone_temp_baixa" src="./assets/imgs/check.png" alt="Status" style="width: 35px; height: 35px;">
                 </div>
             </div>
-            <div class="kpi_card kpi_rosa">
+            <div class="card_kpi">
                 <div class="kpi_titulo">Temperatura Mais Alta | <span>Galpão: <span id="idgalpaoTempAlta"></span> |</span><span> Tanque: <span id="idtanqueTempAlta"></span></span></div>
                 <div class="kpi_valor">
                     <span id="tanquetempmaior"></span><span class="valor_medida">°C</span>
+                    <img id="icone_temp_alta" src="./assets/imgs/check.png" alt="Status" style="width: 35px; height: 35px;">
                 </div>
             </div>
-            <div class="kpi_card kpi_ciano">
+            <div class="card_kpi">
                 <div class="kpi_titulo">Umidade Mais Baixa | <span>Galpão: <span id="idgalpaoUmiBaixa"></span> |</span><span> Tanque: <span id="idtanqueUmiBaixa"></span></span></div>
                 <div class="kpi_valor">
-                    <span id="tanqueumidademenos"></span><span class="valor_medida">%</span>
+                    <span id="tanqueumidademenor"></span><span class="valor_medida">%</span>
+                    <img id="icone_umi_baixa" src="./assets/imgs/check.png" alt="Status" style="width: 35px; height: 35px;">
                 </div>
             </div>
-            <div class="kpi_card kpi_ciano">
+            <div class="card_kpi">
                 <div class="kpi_titulo">Umidade Mais Alta | <span>Galpão: <span id="idgalpaoUmiAlta"></span> |</span><span> Tanque: <span id="idtanqueUmiAlta"></span></span></div>
                 <div class="kpi_valor">
                     <span id="tanqueumidademaior"></span><span class="valor_medida">%</span>
+                    <img id="icone_umi_alta" src="./assets/imgs/check.png" alt="Status" style="width: 35px; height: 35px;">
                 </div>
             </div>
         </section>
 
         <!-- Gráficos -->
         <section class="graficos" id="graficos_section">
-            <span class="nome_grafico">Gráfico da temperatura atual:</span>
+            <span class="nome_grafico">Gráfico da temperatura atual - Últimos 10 registros:</span>
             <div class="card_grafico temperatura_grafico">
                 <div class="header_grafico">
                     <span class="titulo_grafico">Temperatura do Tanque <span id="tanqueid"></span></span>
                     <div class="legenda_grafico">
-                        <span class="item_legenda"><span class="linha_legenda linha_rosa"></span>Temperatura</span>
+                        <span class="item_legenda"><span class="linha_legenda linha_ciano"></span>Temperatura</span>
                         <span class="item_legenda"><span class="linha_legenda linha_limite"></span>Limite</span>
                     </div>
                 </div>
@@ -126,12 +130,12 @@
             </div>
         </section>
         <section class="graficos" id="graficos_section2">
-            <span class="nome_grafico">Gráfico da Umidade atual:</span>
+            <span class="nome_grafico">Gráfico da umidade atual - Últimos 10 registros:</span>
             <div class="card_grafico temperatura_grafico">
                 <div class="header_grafico">
                     <span class="titulo_grafico">Umidade do Tanque <span id="tanqueid2"></span></span>
                     <div class="legenda_grafico">
-                        <span class="item_legenda"><span class="linha_legenda linha_rosa"></span>Temperatura</span>
+                        <span class="item_legenda"><span class="linha_legenda linha_ciano"></span>Umidade</span>
                         <span class="item_legenda"><span class="linha_legenda linha_limite"></span>Limite</span>
                     </div>
                 </div>
