@@ -34,7 +34,7 @@ function buscarAlerta(idUsuario) {
         ON g.fk_endereco = e.id_endereco
             JOIN usuario u 
         ON e.fk_usuario = u.id_usuario
-        WHERE l.temperatura > 4 OR l.temperatura < 0 OR l.umidade < 75 AND id_usuario = ${idUsuario};
+        WHERE (l.temperatura > 4 OR l.temperatura < 0 OR l.umidade < 75) AND id_usuario = ${idUsuario} AND DATE(l.historico_registro) = CURDATE();
     `
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
