@@ -146,7 +146,61 @@
         <div class="graficos_section_todos_umi" class="graficos">
             <div id="dados_umi"></div>
         </div>
+        <div class="div_ia">
+            <div class="ia_ausente" id="iaAusente" onclick="abrirOverlay()">
+                <img src="./assets/icons/mia.png" alt="">
+            </div>
+            <div class="ia_ativa" id="iaAtiva">
+                <header class="header_ia">
+                    <img src="./assets/icons/mia.png" alt="">
+                    <span class="titulo_ia">MIA</span>
+                    <span onclick="fecharOverlay()" class="span_fechar">X</span>
+                </header>
+                <div class="body_ia" id="bodyIa"></div>
+                <footer class="footer_ia">
+                    <textarea placeholder="Digite sua pergunta aqui..." class="text_pergunta" id="pergunta"></textarea>
+                    <div class="div_confirmarResposta" onclick="gerarResposta()">
+                        <img src="./assets/icons/send_message_icon_250990.png">
+                    </div>
+                </footer>
+            </div>
+        </div>
     </main>
     <script src="./js/dashboard.js"></script>
 </body>
 </html>
+<script>
+    function abrirOverlay() {
+        document.getElementById("iaAusente").style.display = "none";
+        document.getElementById("iaAtiva").style.display = "flex";
+    }
+
+    function fecharOverlay() {
+        document.getElementById("iaAusente").style.display = "flex";
+        document.getElementById("iaAtiva").style.display = "none";
+    }
+
+    async function gerarResposta() {
+        let inputPergunta = document.getElementById('pergunta');
+        let textoPergunta = inputPergunta.value;
+        
+        let bodyIa = document.getElementById('bodyIa');
+        bodyIa.innerHTML += `<span class="pergunta_user">${textoPergunta}</span>`;
+        bodyIa.scrollTop = bodyIa.scrollHeight;
+
+        inputPergunta.value = "";
+
+        let response = await fetch('/ia/perguntar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ pergunta: textoPergunta })
+        });
+
+        let data = await response.json();
+
+        bodyIa.innerHTML += `<span class="resposta_ia">${data.resultado}</span>`;
+        bodyIa.scrollTop = bodyIa.scrollHeight;
+    }
+</script>
