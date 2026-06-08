@@ -7,7 +7,7 @@ router.get("/tempo-real-todo/:idGalpao/:idUsuario", function (req, res) {
     medidaController.buscarEmTempoRealTodo(req, res);
 });
 
-router.get("/tempo-real/:idTanque/:idGalpao/:idUsuario", function (req, res) {
+router.get("/tempo-real/:idGalpao/:idTanque/:idUsuario", function (req, res) {
     medidaController.buscarMedidasTempoReal(req, res);
 });
 

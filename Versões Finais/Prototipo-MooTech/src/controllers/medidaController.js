@@ -3,11 +3,11 @@ var medidaModel = require("../models/medidaModel");
 function buscarMedidasTempoReal(req, res) {
     var idTanque = req.params.idTanque;
     var idGalpao = req.params.idGalpao;
-    var idUsuario = req.params.idUsuario; 
+    var idUsuario = req.params.idUsuario;
 
     console.log(`Recuperando medidas em tempo real`);
 
-    medidaModel.buscarMedidasTempoReal(idTanque, idGalpao, idUsuario).then(function (resultado) {
+    medidaModel.buscarMedidasTempoReal(idGalpao, idTanque, idUsuario).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {

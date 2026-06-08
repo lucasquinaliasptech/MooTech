@@ -72,7 +72,7 @@ function criarChart() {
         return
     }
 
-    fetch(`/medidas/tempo-real/${idTanque}/${idGalpao}/${idUsuario}`, { method: "GET" }).then(function (response) {
+    fetch(`/medidas/tempo-real/${idGalpao}/${idTanque}/${idUsuario}`, { method: "GET" }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);

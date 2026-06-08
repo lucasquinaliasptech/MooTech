@@ -14,15 +14,15 @@ function buscarMedidasTempoReal(idGalpao, idTanque, idUsuario){
         historico_registro,
         DATE_FORMAT(historico_registro,'%H:%i') as h
         FROM leitura_sensor_temperatura_umidade
-            JOIN sensor_temperatura_umidade 
+            JOIN sensor_temperatura_umidade
         ON fk_sensor_temperatura_umidade = id_sensor
-            JOIN tanque 
+            JOIN tanque
         ON fk_tanque = id_tanque
-            JOIN galpao 
+            JOIN galpao
         ON fk_galpao = id_galpao
-            JOIN endereco 
+            JOIN endereco
         ON fk_endereco = id_endereco
-            JOIN usuario 
+            JOIN usuario
         ON fk_usuario = id_usuario
         WHERE fk_galpao = ${idGalpao} AND fk_tanque = ${idTanque} AND id_usuario = ${idUsuario};`;
 
