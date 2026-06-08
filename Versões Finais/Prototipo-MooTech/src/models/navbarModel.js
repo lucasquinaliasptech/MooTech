@@ -21,7 +21,7 @@ function buscarAtivo(idUsuario) {
 
 function buscarAlerta(idUsuario) {
 
-    var instrucaoSql = `
+   var instrucaoSql = `
         SELECT COUNT(*) as Alertas
             FROM leitura_sensor_temperatura_umidade l
             JOIN sensor_temperatura_umidade s 
